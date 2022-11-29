@@ -118,7 +118,7 @@
                                                             <div class="tab-pane show active" id="info" role="tabpanel">
                                                                 <div class="row">
 
-                                                                    <div class="col-md-6 col-12">
+                                                                    <div class="col-md-4 col-12">
                                                                         <label for="role">Access rights role</label>
                                                                         <div
                                                                             class="input-group border w-100 mt-2 bg-white">
@@ -127,7 +127,7 @@
 
                                                                                 <i class="fa fa-poll-h"></i>
                                                                             </span>
-                                                                            <select required class="w-100" id="role" name="role">
+                                                                            <select required class="w-100" id="role" name="roles">
 
                                                                                 <option >Select role</option>
                                                                                 <option value="admin">Administrator
@@ -138,7 +138,22 @@
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="col-md-6 col-12">
+                                                                    <div class="col-md-4 col-12">
+                                                                        <label for="role">Related employee</label>
+                                                                        <div class="input-group border w-100 mt-2 bg-white">
+                                                                            <input type="hidden" name="employee_id">
+                                                                            <span class="input-group-text" >                                                         
+                                                                                <i class="fa fa-user"></i>
+                                                                            </span>
+                                                                            <input type="text" placeholder="Related HR employee" required value="" data-route="employees" class="inputSelect" />
+                                                                            <ul class="inputSelectList position-absolute bg-white rounded shadow-default top-5 left-0 w-100 d-none">
+                                                                            
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    <div class="col-md-4 col-12">
                                                                         <label for="password">Login password</label>
                                                                         <div class="input-group border w-100 mt-2 bg-white">
                                                                             <span class="input-group-text" id="basic-addon1">

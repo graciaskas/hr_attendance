@@ -35,14 +35,22 @@ exports.postLogin = (req, res, next) => {
 
         } else {
           const user = results[ 0 ];
+          
+
           //decrypt and compare password with hashed db password
-          let decrypt = await bcrypt.compare(password, user.password);
+          bcrypt.compare(password, user.password, (e, result) => {
+            if (e) { console.log(e); } else {
+              console.log(result, password, user.password);
+            }
+          });
 
           // if (!decrypt) {
           //   return res.status(401).render('login', {
           //     error: 'Incorrect password'
           //   });
           // }
+
+
 
           const token = jwt.sign({
             user: {

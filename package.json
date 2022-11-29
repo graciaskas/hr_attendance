@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Vishal1003/CUMS_DBMS.git"
+    "url": "git+https://github.com/grciaskas/hr_attendance.git"
   },
   "author": "Gracias Kasongo",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Vishal1003/CUMS_DBMS/issues"
+    "url": "https://github.com/grciaskas/hr_attendance/issues"
   },
-  "homepage": "https://github.com/Vishal1003/CUMS_DBMS#readme",
+  "homepage": "https://github.com/grciaskas/hr_attendance/#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",
@@ -30,7 +30,6 @@
     "mailgun-js": "^0.22.0",
     "method-override": "^3.0.0",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.7",
-    "uuid": "^8.3.2"
+    "nodemon": "^2.0.7"
   }
 }

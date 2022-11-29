@@ -7,6 +7,7 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const cors = require('cors');
 const methodOverride = require('method-override');
+const bcrypt = require("bcryptjs");
 
 const { logger } = require('./middlewares/Logger');
 const { forwardAuth, requireAuth  } =  require('./middlewares/auth.middleware');
@@ -72,6 +73,7 @@ app.use('/users', requireAuth, userRoutes );
 
 
 const PORT = process.env.PORT || 5000;
+
 
 app.use(express.static(__dirname + '/public'));
 

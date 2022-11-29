@@ -4,6 +4,20 @@ const bcrypt = require('bcryptjs');
 
 const MySQL = require('../database/mysql');
 let db = MySQL.connect();
+
+//Hash password function
+const hashPassword = (password) => {
+    return new Promise((resolve, reject) => {
+        bcrypt.genSalt(12, (err, salt) => {
+            if (err) reject(err);
+            bcrypt.hash(password, salt, function (error, hash) {
+                if (error) reject(error);
+                resolve(hash);
+            });
+        });
+    });
+};
+
 // Database query promise
 const query = (sql) => {
   return new Promise((resolve, reject) => {
@@ -34,6 +48,37 @@ const fieldGet = (id, field, tableName) => {
         });
     });
 };
+
+const datesInterval = (dateOne, dateTwo) => {
+   if (!dateOne && !dateTwo) throw Error("Arguments missed");
+   try {
+        let dOne = new Date(dateOne);
+        let dTwo = new Date(dateTwo);
+
+        //Get the date difference
+        let difference = dTwo.getTime() - dOne.getTime();
+        // Get seconds;
+        let seconds = Math.floor(difference / (1000));
+        //Get minutes;
+        let min = Math.floor(seconds / 60);
+        // Get hours;
+        let hours = Math.floor(min / 60);
+        // Get days;
+        let days = Math.floor(hours / 24);
+        
+        seconds %= 60;
+        min %= 60;
+        
+        return {
+            days,
+            hours,
+            min,
+            seconds
+        }
+    } catch (error) {
+        throw Error(error);
+    }
+}
 
 
 
@@ -178,3 +223,5 @@ exports.barCreate = (options) => {
 exports.queryDB = query;
 exports.queryDBParams = queryDBParams;
 exports.fieldGet = fieldGet; 
+exports.hashPassword = hashPassword;
+exports.datesInterval = datesInterval;
