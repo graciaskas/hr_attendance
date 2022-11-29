@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-const { barCreate, paginate, queryDB, queryDBParams, fieldGet } = require("../utils/utils");
+const { barCreate, paginate, queryDB, queryDBParams, fieldGet, datesInterval } = require("../utils/utils");
 
 exports.index = async (req, res, next) => {
   try {
@@ -95,12 +95,35 @@ exports.kiosque = async (req, res) => {
   let sql = 'SELECT * FROM hr_attendances WHERE employee_id = ? and state = "draft" order by id desc limit 1';
   let data = await queryDBParams(sql, req.user.employee_id);
   let canCheckOut = false;
+  let hasCheckOut = false;
+  let t = null;
+
   
   if (data.length != 0) {
     canCheckOut = true;
-    let worked_hours = '';
-    let  checkin  = new Date(data[0].create_date);
-    console.log(checkin.to);
+    let currentTime = new Date();
+    let { checkin, id } = data[0];
+   
+    
+    let d = checkin.slice(0, 2);
+    let m = checkin.slice(3, 5);
+    let y = checkin.slice(6, 10);
+    let time = checkin.slice(10, checkin.length);
+
+    checkin = `${m}-${d}-${y} ${time}`;
+
+    t = datesInterval(checkin, currentTime.toISOString());
+    t.id = id;
+
+    //If the user or employee has checked out;
+    if (data[ 0 ].checkout != null) {
+      hasCheckOut = true;
+      res.render('error', {
+        code: 403,
+        content: 'You have Checked Out At ' + data[ 0 ].checkout
+      });
+    }
+    
   }
   
   res.render('Attendance/kiosque', {
@@ -109,7 +132,10 @@ exports.kiosque = async (req, res) => {
     appRootLocation: '/Attendances',
     barCreate,
     user: req.user,
-    canCheckOut
+    canCheckOut,
+    t,
+    checkin: data[ 0 ].checkin,
+    hasCheckOut
   });
 }
 
@@ -132,13 +158,19 @@ exports.apiGet = async (req, res) => {
 }
 
 
-exports.apiPost = async (req, res) => {
+exports.apiPost = async (req, res, next) => {
   try {
+
+    //If an action is passed as on query paramater
+    //Go to next controller or middleware;
+    let { action } = req.query;
+    if (action) {
+      next();
+      return;
+    }
     
     let sql = "INSERT INTO hr_attendances SET ?";
     let params = { ...req.body, approved_by: null };
-
-    console.log(req.body.checkin);
 
     // return res.json(req.body);
 
@@ -160,5 +192,26 @@ exports.apiPost = async (req, res) => {
       code: 500,
       content: error.message || error
     })
+  }
+}
+
+exports.apiPut = (req, res) => {
+  try {
+    let sql = 'UPDATE hr_attendances SET ? where id = '+req.body.id;
+    queryDBParams(sql, req.body)
+      .then(result => res.redirect("/attendances"))
+      .catch(error => {
+        console.log(error);
+        res.render("error", {
+          code: 500,
+          content: error.message || error
+        });
+      });
+  } catch (error) {
+    console.log(error);
+    res.render("error", {
+      code: 500,
+      content: error.message || error
+    });
   }
 }

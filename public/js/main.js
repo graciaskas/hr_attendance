@@ -146,6 +146,7 @@ class HRAttendance {
     let checkinInput = document.querySelector("input[name=checkin]");
     let alert = document.querySelector(".alert");
 
+    if (!CheckInButtom) return;
 
     CheckInButtom.addEventListener("click", async (e) => {
       let checkIn = new Date();
@@ -166,14 +167,40 @@ class HRAttendance {
       } catch (error) {
         console.log(error);
       }
-
-      
     });
   }
 
   static checkOut() {
-    
+
+    let CheckOutButtom = document.querySelector(".CheckOutButtom");
+    let checkOutInput = document.querySelector("input[name=checkout]");
+    let alert = document.querySelector(".alert");
+    let form = document.querySelector("form");
+
+    if (!CheckOutButtom) return;
+
+    CheckOutButtom.addEventListener("click", async (e) => {
+      let checkOut = new Date();
+
+      checkOutInput.value = checkOut.toLocaleString();
+      
+      alert.classList.remove("d-none");
+      alert.innerText = `Good Bye ! You have Checked Out At ${checkOut.toLocaleString()}`;
+
+      try {
+        form.action = "/api/attendances/?action=update"
+        setTimeout(() => {
+          form.submit();
+        }, 3000);
+        //Remove button from view
+        CheckOutButtom.remove();
+      } catch (error) {
+        console.log(error);
+      }
+    })
+
   }
+
 }
 
 //Document is ready

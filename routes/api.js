@@ -46,7 +46,7 @@ router.route("/departments")
 //attendance route
 router.route("/attendances")
     .get(requireAuth,attendance.apiGet)
-    .post(requireAuth,attendance.apiPost)
+    .post(requireAuth, attendance.apiPost, attendance.apiPut)
     .put((req, res) => {
         res.json({ ...req.body });      
     })

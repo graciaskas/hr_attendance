@@ -9,7 +9,7 @@ const { barCreate, queryDBParams, hashPassword, queryDB } = require("../utils/ut
 
 exports.index = async (req, res, next) => {
   try {
-    let data = await zeroParamPromise('select * from hr_users');
+    let data = await queryDB('select * from hr_users');
     res.render("User/index", {
       page_name: null,
       appName: 'Users',
