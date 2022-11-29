@@ -1,0 +1,20 @@
+[
+    { 
+        "roll_no": "HRE00001", 
+        "name": "Gracias Kasongo",
+        "job_title": "Software developer",
+        "image":"",
+        "mobile_phone":"978092058",
+        "email":"graciaskas96@zeslap.com",
+        "state":"Nord Kivu",
+        "city":"Goma",
+        "department_id":1,
+        "supervisor_id":"",
+        "country_id":1,
+        "birth_place" :"Kindu",
+        "birth_day":"1999-12-03",
+        "gender":"Male",
+        "street":"45 Uvira, Q/Murara",
+        "zipcode":""
+    }
+]

@@ -1,0 +1,33 @@
+[
+  { 
+    "code": "ECE", 
+    "name": "Electronics and Communications Engineering" 
+    },
+  { 
+    "code": "CSE", 
+    "name": "Computer Engineering" 
+    },
+  
+    { 
+        "code": "ICE", 
+        "name": "Instrumentation and Control Engineering" 
+    },
+
+  { 
+    "code": "IT", 
+    "name": "Information Technology"
+  },
+  { 
+    "code": "BT", 
+    "name": "Bio-Technology" 
+  },
+  { 
+    "code": "MPAE", 
+    "name": "Manufacturing Processes and Automation" 
+  },
+  { 
+    "code": "ME", 
+    "name": "Mechanical Engineering" 
+ }
+]
+

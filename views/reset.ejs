@@ -1,0 +1,46 @@
+<%- include('./Includes/begin.ejs') %>
+    <section class="bg-gray d-flex vh-100">
+        <div class="container pt-4">
+       
+            <div class="row justify-content-center">
+                <div class="col-lg-7 col-md-8">
+                    <div class="shadow-default p-5 mb-5 bg-white rounded">
+                        <div class="forgot">
+                            <h2>Forgot your password?</h2>
+                            <p>Change your password in three easy steps. This will help you to secure your password!
+                            </p>
+                            <ol class="list-unstyled">
+                                <li><span class="text-primary text-medium">1. </span>Enter your email address below.
+                                </li>
+                                <li><span class="text-primary text-medium">2. </span>Our system will send you a
+                                    temporary
+                                    link</li>
+                                <li><span class="text-primary text-medium">3. </span>Use the link to reset your
+                                    password
+                                </li>
+                            </ol>
+                        </div>
+           
+                            <form class="mb-2" role="form" method="post"action="/api/reset">
+                                <div class="input-group border">
+                                    <i class="fa fa-sign-in-alt input-group-text"></i>
+                                    <input class="px-2" type="email" name="email" id="email"  placeholder="Email" required/>
+                                </div>
+                                <small class="form-text text-muted py-2 d-block">
+                                    Enter the email address you used during the
+                                    registration. Then we'll email a link to this address.
+                                </small>
+                                
+                                <button class="btn bg-primary btn-block mb-2" type="submit">Get New Password</button>
+                            </form>
+                            <!-- <hr> -->
+                            <button class="btn bg-secondary w-100" onclick="location.href = '/'">Back to
+                                Login</button>
+                    </div>
+                </div>
+            </div>
+         
+        </div>
+
+    </section>
+<%- include('./Includes/end.ejs') %>

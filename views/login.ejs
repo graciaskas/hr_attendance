@@ -1,0 +1,36 @@
+<%- include('./Includes/begin.ejs') %>
+
+    <section class="bg-gray d-flex vh-100">
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-lg-5 col-md-6 col-sm-10 m-auto">
+                    <div class="bg-white p-4 rounded shadow-default ">
+                    <div class="border-bottom mb-3">
+                        <h1 class="text-center mb-3"><i class="fas fa-sign-in-alt"></i> Login</h1>
+                    </div>
+                    <%- include('./Includes/messages') %>
+                    <form action="/api/login" method="post">
+                
+                        <div class="input-group mb-3 border">
+                            <i class="fa fa-user input-group-text" id="basic-addon1"></i>
+                            <input type="email" class="px-2" placeholder="Email" aria-label="Email"
+                                aria-describedby="basic-addon1" id="email" name="email" required>
+                        </div>
+
+                        <div class="input-group mb-3 border">                               
+                            <i class="fa fa-key input-group-text" id="password_icon"></i>
+                            <input type="password" class="px-2" placeholder="Password" aria-label="Password" aria-describedby="password_icon" name="password" id="password" required>
+                        </div>
+
+                        <button type="submit" class="btn bg-primary btn-block mb-3 w-100">Login</button>
+                    </form>
+                    <small class="">
+                        Forgot Password? <a href="/reset">Generate New Password</a>
+                    </small>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<%- include('./Includes/end.ejs') %>

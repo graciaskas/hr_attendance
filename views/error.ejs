@@ -1,0 +1,23 @@
+<%- include('./Includes/begin.ejs') %>
+    <!-- Error Page -->
+    <body class="d-lg-flex align-items-center bg-secondary text-white">
+
+        <div class="container" style="width: 40%;">
+            <div class="pt-5 text-center">
+                <div class="pt-5 display-1 fs-1" id="top">Oops!</div>
+                <h1 class="text-primary" style="font-size: 85px;"><%= code %></h1>
+                <p><%= content %></p>
+                
+                <!-- <label id="errormsg" class="pt-2">
+                    <%- include('./Includes/messages') %>
+                </label> -->
+
+                <a class="btn bg-primary btn-lg mt-4 rounded-pill" href = '/'>
+                   Back home
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+<%- include('./Includes/end.ejs') %>

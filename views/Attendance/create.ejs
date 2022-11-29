@@ -1,0 +1,117 @@
+<%- include('../Includes/begin.ejs') %>
+
+    <div class="App">
+        <%- include('../Includes/nav.ejs') %>
+        <main class="main">
+            <%- include('../Includes/header.ejs') %>
+
+            <div class="main-content">
+                <div class="container">
+                    <div class="row">
+
+                        <div class='container'>
+                            <form method="post" action="/api/attendances" class="user-form">
+                                <div class="row">
+
+                                    <div class="col-12">
+                                        <div class="bg-white  rounded shadow-default p-3">
+                                            <h5 class='text-secondary  text-raleway'>
+                                                <a href='/dashboard'><i class='fa fa-home'></i></a> /
+                                                <a href='/attendances'>Attendances</a> / New
+                                            </h5>
+                                            <div class='border-top pt-3'>
+                                                <button type='submit' class='btn bg-primary create_button' style='margin-right:7px'>Save</button>
+                                                <a href='/attendances' class='btn bg-gray ml-4'>Cancel</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    
+                                    <div class="col-lg-12">
+                                        <div class="p-3 bg-white rounded mt-3 shadow-default">
+                                            <div class="row">
+
+                                                <% if(error !=null ) { %>
+                                                    <div class="col-12">
+                                                        <div class="alert alert-danger w-100  alert-dismissible fade show" role="alert">
+                                                            <%= error %>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                        </div>
+                                                    </div>
+                                                <% } %>
+
+                                                <div class="col-md-6 col-12">
+                                                    <label for="checkin">Checkin</label>
+                                                    <div class="input-group border w-100 mt-2 bg-white">
+                                                        <span class="input-group-text" id="basic-addon1">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </span>
+                                                        <input type="datetime-local" placeholder="Checkin" required value="" id="checkin" name="checkin"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-12">
+                                                    <label for="checkout">CheckOut</label>
+                                                    <div class="input-group border w-100 mt-2 bg-white">
+                                                        <span class="input-group-text" id="basic-addon1">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </span>
+                                                        <input type="datetime-local" placeholder="CheckOut" value="" id="checkout" name="checkout"/>
+                                                    </div>
+                                                </div>
+
+                                                    
+                                                <div class="col-md-6 col-12">
+                                                    
+                                                    <label for="employee_attendance">Employee</label>
+                                                    <div class="input-group border  w-100 mt-2 bg-white position-relative">
+                                                        <input type="number" hidden name="employee_id" required>
+                                                        <span class="input-group-text" id="basic-addon1">
+                                                            <i class="fa fa-user"></i>
+                                                        </span>
+                                                        <input 
+                                                            type="text" 
+                                                            placeholder="employee"
+                                                            data-route="employees" 
+                                                            required value="" 
+                                                            id="employee_attendance" 
+                                                            class="inputSelect" 
+                                                        />
+                                                        <ul class="inputSelectList position-absolute bg-white rounded shadow-default top-5 left-0 w-100 d-none">
+                                                            
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-12">
+                                                
+                                                    <label for="employee_approve">Approved by</label>
+                                                    <div class="input-group border  w-100 mt-2 bg-white position-relative">
+                                                        <input type="number" hidden name="approved_by">
+                                                        <span class="input-group-text" id="basic-addon1">
+                                                            <i class="fa fa-user"></i>
+                                                        </span>
+                                                        <input type="text" placeholder="Approved by" data-route="employees" value="" id="employee_approve"
+                                                            class="inputSelect" />
+                                                        <ul class="inputSelectList position-absolute bg-white rounded shadow-default top-5 left-0 w-100 d-none">
+                                                
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+
+    <%- include('../Includes/end.ejs') %>

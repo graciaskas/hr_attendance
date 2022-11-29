@@ -1,0 +1,45 @@
+<header class="main-header bg-white shadow-default p-2 d-flex  align-items-center">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <form action="" class="w-50 rounded-pill bg-gray">
+                <input type="text" placeholder="Search" class="w-100 bg-gray  rounded-pill" />
+            </form>
+            <nav class="header__icons d-flex align-items-center justify-content-center">
+                <li class="header__icon  position-relative  px-2 bg-gray rounded-pill">
+                    <i class="fa fa-comments"></i>
+                    <span class="position-absolute bottom-0 start-100 translate-middle badge rounded-pill bg-warning">
+                        05
+                    </span>
+                </li>
+                <li class="header__icon  position-relative mx-5 px-2 bg-gray rounded-pill">
+                    <i class="fa fa-bell"></i>
+                    <span class="position-absolute bottom-0 start-100 translate-middle badge rounded-pill bg-orange">
+                        05
+                    </span>
+                </li>
+                <li class="dropdown">
+                    <a class="btn text-white bg-primary dropdown-toggle" href='#' role="button" id="dropdownProducts"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-user-circle"></i>
+                        <%= user.name %>
+                    </a>
+
+                    <ul class="dropdown-menu  p-4 shadow-default border-0 rounded" aria-labelledby="dropdownProducts">
+                        <li>
+                            <a href='/users/view/<%= user.id %>' class="dropdown-itemx">My profile</a>
+                        </li>
+                        <% if(user.employee_id != undefined || user.employee_id != null ){ %>
+                            <li>
+                                <a href='/employees/view/<%= user.employee_id %>' class="dropdown-itemx">My HR Info</a>
+                            </li>
+                        <% } %>
+                        <li>
+                            <a href='https://zeslap.com' target="_blank" class="dropdown-itemx">Documentation</a>
+                        </li>
+                    </ul>
+                </li>
+            </nav>
+
+        </div>
+    </div>
+</header>

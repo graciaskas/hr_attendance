@@ -1,0 +1,50 @@
+<%- include('../Includes/begin.ejs') %>
+    <!-- Error Page -->
+    
+    <body class="d-lg-flex align-items-center bg-gray">
+    
+        <div class="container mt-4" style="width: 40%;">
+            <form class="bg-white shadow-default rounded" action="/api/attendances" method="post">
+                <div class="border-bottom p-3">
+                    <a href="/" class="bg-primary text-white p-2 px-3 rounded-pill">
+                        <i class="fa fa-arrow-left"></i> Back home
+                    </a>
+                </div>
+                
+                <div class="pt-4 text-center p-3">
+                    <input type="hidden" name="employee_id" value="<%= user.employee_id %>">
+                    <input type="datetime" name="checkin" class="d-none" value="">
+                    <h2 class="text-primary"><%= user.name %></h2>
+                    
+                    <% if(!canCheckOut) { %>
+                        <h5>You are welcome !</h5>
+                        <div class="alert alert-info mt-4 mb-2 d-none rounded-pill"></div>
+                        <button 
+                            class="bg-secondary text-white mt-4 rounded px-4 CheckInButtom mb-3 d-flex align-items-center text-center justify-content-center rounded-pill w-100" 
+                            type="submit" style="padding: 1px !important;">
+                            <i class="fas fa-sign-in-alt display-6"></i>
+                            <span style="margin-left: 7px;">Click the button to Check In.</span>
+                        </button>
+                    <% } %>
+
+                    <% if(canCheckOut) { %>
+                        <h5>You are welcome back!</h5>
+                        <div class="alert alert-info mt-4 mb-2 rounded-pill">
+                            Your currently worked hours is 7 Hours and 56 min.
+                        </div>
+                        <button
+                            class="bg-danger text-white mt-4 rounded px-4 CheckOutButtom mb-3 d-flex align-items-center text-center justify-content-center rounded-pill w-100"
+                            type="submit" style="padding: 1px !important;">
+                            <i class="fas fa-sign-out-alt display-6"></i>
+                            <span style="margin-left: 7px;">Click the button to Check Out.</span>
+                        </button>
+                    <% } %>
+
+                </div>
+            </form>
+           
+        </div>
+    
+    </div>
+
+<%- include('../Includes/end.ejs') %>

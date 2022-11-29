@@ -1,0 +1,121 @@
+<%- include('./Includes/begin.ejs') %>
+
+<!-- <link rel="stylesheet" href="../CSS/admin-dashboard.css"> -->
+
+<div class="App">
+    <%- include('./Includes/nav.ejs') %>
+
+    <main class="main">
+
+        <%- include('./Includes/header.ejs') %>
+
+        <div class="main-content">
+        
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="p-3 bg-white shadow-default d-flex align-items-center rounded mb-3">
+                            <h4>Hello <%= user.name %>
+                            </h4>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="p-3 bg-white rounded shadow-default">
+                            <div class="border-bottom">
+                                <h5 class="card-title">Manage Employees</h5>
+                            </div>
+                            <div class="">
+                                <p class="card-text">Manage your employees here. You can edit and
+                                    can add or remove a staff. All your changes will be reflected to them as well.
+                                </p>
+                            </div>
+                           
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="p-3 bg-white rounded shadow-default">
+                            <div class="border-bottom">
+                                <h5 class="card-title">Manage Users</h5>
+                            </div>
+                            <div class="">
+                                <p class="card-text">Manage your employees here. You can edit and
+                                    can add or remove a staff. All your changes will be reflected to them as well.
+                                </p>
+                            </div>
+                    
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="p-3 bg-white rounded shadow-default">
+                            <div class="border-bottom">
+                                <h5 class="card-title">Manage Attendances</h5>
+                            </div>
+                            <div class="">
+                                <p class="card-text">Manage your employees here. You can edit and
+                                    can add or remove a staff. All your changes will be reflected to them as well.
+                                </p>
+                            </div>
+                    
+                        </div>
+                    </div>
+                
+                   
+                   
+                
+                    <div class="col-12">
+                       
+                        <div class="p-3 mt-4 bg-white rounded shadow-default mb-3">
+                            <h5>Lastest attendances</h5>
+                            <table class="table border">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" name="" id="" /></th>
+                                        <th class="border-right">#</th>
+                                        <th>Employee</th>
+                                        <th>Checkin</th>
+                                        <th>CheckOut</th>
+                                        <th>Worked hours</th>
+                                        <th>Approved</th>
+                                        <th class="text-right">State</th>
+                                    </tr>
+                                </thead>
+                
+                                <tbody class='table-body-striped'>
+                                    <% for( let attendance of data ) { %>
+                                        <tr>
+                                            <td><input type="checkbox" name="" id="" /></td>
+                                            <td><%= attendance.id %></td>
+                                            <td>
+                                                <%= attendance.emp_name %>
+                                            </td>
+                                            <td><%= attendance.checkin.toLocaleString() %></td>
+                                            <td>
+                                                <%= attendance.checkout %>
+                                            </td>
+                                            <td><%= attendance.worked_hours %></td>
+                                            <td><%= attendance.emp_approved %></td>
+                                            <td>
+                                                <span class="bg-primary rounded-pill px-2 text-white">
+                                                    <%= attendance.state %>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </main>
+</div>
+
+
+
+<%- include('./Includes/end.ejs') %>

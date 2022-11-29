@@ -1,0 +1,80 @@
+<%- include('../Includes/begin.ejs') %>
+
+    <div class="App">
+        <%- include('../Includes/nav.ejs') %>
+
+            <main class="main">
+
+                <%- include('../Includes/header.ejs') %>
+
+                    <div class="main-content">
+                        <div class="container">
+                            <div class="row">
+
+                                <%- 
+                                    barCreate({ 
+                                        appName, 
+                                        appRootLocation,
+                                        create: true 
+                                    }) 
+                                %>
+
+                                <div class="col-12">
+                                    <div class="bg-white p-3 shadow-default rounded">
+                                        <table class="table">
+                                            <tr>
+                                                <th><input type="checkbox" name="" id=""></th>
+                                                <th>#</th>
+                                                <th>Employee name</th>
+                                                <th>Checkin</th>
+                                                <th>CheckOut</th>
+                                                <th>Worked hours</th>
+                                                <th>Approved by</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            <tbody class="table-body-striped">
+                                                <% for( let attendance of data) { %>
+                                                    <tr>
+                                                        <td><input type="checkbox"></td>
+                                                        <td>
+                                                            <%= attendance.id%>
+                                                        </td>
+                                                        <td>
+                                                            <%= attendance.emp_name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= attendance.checkin.toLocaleString() %>
+                                                        </td>
+                                                        <td>
+                                                            <%= attendance.checkout %>
+                                                        </td>
+                                                        <td>
+                                                            <%= attendance.worked_hours %>
+                                                        </td>
+                                                        <td>
+                                                            <%= attendance.emp_approved%>
+                                                        </td>
+                                                        <td>
+                                                            <span  class="badge bg-primary  rounded-pill">
+                                                                <%= attendance.state %>
+                                                            </span>                                                             
+                                                        </td>
+                                                        <td>
+                                                            <div role="button" class="bg-secondary rounded-pill px-2 text-white">Approve</div>
+                                                        </td>                                                       
+                                                    </tr>
+                                                    <% } %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+            </main>
+
+    </div>
+
+    <%- include('../Includes/end.ejs') %>

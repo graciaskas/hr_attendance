@@ -1,0 +1,52 @@
+<%- include('./Includes/begin.ejs') %>
+<%- include('./Includes/navbar.ejs') %>
+
+<section id="content-wrapper">
+    <main role="main" class="pt-5 main">
+      
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7 m-auto">
+                    <div class="card card-body shadow-sm">
+                        <div class="border-bottom mb-3">
+                            <h1 class="text-center mb-3">Register</h1>
+                        </div>
+                            
+                        <%- include('./Includes/messages') %>
+                        <form action="/api/register" method="POST">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email" required />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter Name" required />
+                                    </div>
+                                </div>
+                            </div>
+                           
+                           
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" name="password" class="form-control"
+                                    placeholder="Enter Password" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
+                                    placeholder="Confirm Password" required />
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</section>
+
+<%- include('./Includes/end.ejs') %>

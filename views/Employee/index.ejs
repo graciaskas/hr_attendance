@@ -1,0 +1,48 @@
+<%- include('../Includes/begin.ejs') %>
+
+<div class="App">
+    <%- include('../Includes/nav.ejs') %>
+
+    <main class="main">
+
+        <%- include('../Includes/header.ejs') %>
+
+        <div class="main-content">
+            <div class="container">
+                <div class="row">
+
+                    <%- barCreate({ appName, appRootLocation,create:true }) %>
+                    
+                    <div class="col-12">
+                        <div class="bg-white p-3 shadow-default rounded">
+                            <div class="row">
+                               <% for( let employee of data) { %>
+                                    <a href='/employees/view/<%= employee.id %>' class="col-lg-4 col-md-6 col-12 text-secondary mb-2">
+                                        <div class='bg-white  p-3 d-flex user-card rounded justify-content-between'>
+                                            <div>
+                                                <h6><%= employee.name %></h6>
+                                                <small>45, Uvira</small>
+                                                <small><%= employee.email %></small>
+                                                <small> 
+                                                    <i class="fa fa-mobile"></i>
+                                                    <%= employee.mobile_phone %>
+                                                </small>
+                                            </div>
+                                            <div>
+                                                <img src="/src/image_add.png" alt="fd" class='img-fluid rounded' />
+                                            </div>
+                                        </div>
+                                    </a>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+    
+</div>
+
+<%- include('../Includes/end.ejs') %>

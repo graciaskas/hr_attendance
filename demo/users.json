@@ -1,0 +1,11 @@
+[
+    { 
+        "roll_no": "HRU00001", 
+        "name": "Gracias Kasongo",
+        "login": "gracias",
+        "email":"graciaskas96@zeslap.com",
+        "password":"sysadmin",
+        "is_employee":1,
+        "employee_id":1
+    }
+]

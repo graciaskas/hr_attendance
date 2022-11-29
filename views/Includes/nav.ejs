@@ -1,0 +1,94 @@
+
+<aside class="navigation bg-secondary">
+
+    <div class="d-flex align-items-center navigation-header bg-white">
+        <img src="/icons/favicon.png" alt="" width={38} />
+        <h4 class="text-secondary" style="padding-top:7px"><strong class="badge bg-primary">HR</strong> Attendance.</h4>
+    </div>
+
+    <div class='navigation-nav'>
+        <a href="/dashboard" class='d-flex align-items-center'>
+            <i class="fas fa-columns"></i>
+            <span class="text-decoration-none text-white">Dashboard</span>
+        </a>
+
+        <% if ( user.role == 'admin' || user.role == 'user' ) { %>
+            <a href="/employees" class="text-white d-flex align-items-center">
+                <i class="fas fa-users"></i>
+                <span class="text-decoration-none t-white">Employees</span>
+                <i class='badge rounded-pill bg-orange float-right'>05</i>
+            </a>
+            <a href="/departments" class="d-flex align-items-center">
+                <i class="fas fa-columns"></i>
+                <span class="text-decoration-none t-white">Departments</span>
+                <i class='badge rounded-pill bg-warning float-right'>05</i>
+            </a>
+        <% } %>
+
+        <li class='navigation-dropdown'>
+            <a data-bs-toggle="collapse" href="#multiCollapseExample1" class="collapse-item d-block w-100">
+                <i class="fas fa-list"></i>
+                <span class="text-decoration-none t-white">Attendances</span>
+            </a>
+            <div class="collapse multi-collapse bg-secondary-dark-2 rounded" id="multiCollapseExample1">
+                <% if ( user.role=='admin' || user.role=='user' ) { %>
+                    <a href="/attendances" class='d-flex align-items-center'>
+                        <i class="fas fa-columns"></i>
+                        <span class="text-decoration-none t-white">Attendances</span>
+                        <i class='badge rounded-pill bg-primary float-right'>05</i>
+                    </a>
+                <% } %>
+                <a href="/attendances/kiosque" class='d-flex align-items-center'>
+                    <i class="fas fa-columns"></i>
+                    <span class="text-decoration-none t-white">KioSque Mode</span>
+                </a>
+               
+            </div>
+        </li>
+
+        <% if ( user.role=='admin' || user.role=='user' ) { %>
+            <a href="/users" class="d-flex align-items-center">
+                <i class="fas fa-user-friends"></i>
+                <span class="text-decoration-none t-white">Users</span>
+                <i class='badge rounded-pill bg-primary float-right'>05</i>
+            </a>
+
+            <li class='navigation-dropdown'>
+                <a data-bs-toggle="collapse" href="#multiCollapseExample1" class="collapse-item d-block w-100">
+                    <i class="fas fa-cogs "></i>
+                    <span class="text-decoration-none t-white">Settings</span>
+                </a>
+                <div class="collapse multi-collapse bg-secondary-dark-2 rounded" id="multiCollapseExample1">
+                    <a to="/blog/?view=th" class='d-flex align-items-center'>
+                        <i class="fas fa-columns"></i>
+                        <span class="text-decoration-none t-white">Dashboard</span>
+                    </a>
+                    <a to="/blog/blogs/?view=th" class='d-flex align-items-center active'>
+                        <i class="fas fa-blog "></i>
+                        <span class="text-decoration-none t-white">Blogs</span>
+                        <i class='badge rounded-pill bg-warning float-right'>05</i>
+                    </a>
+                </div>
+            </li>
+        <% } %>
+
+        
+
+
+        <a href="/logout" class="d-flex align-items-center">
+            <i class="fa fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </ul>
+</aside>
+
+
+<!-- <div id="navbar-wrapper" style="position: fixed;">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="#" class="navbar-brand" id="sidebar-toggle"><i class="fa fa-bars"></i></a>
+            </div>
+        </div>
+    </nav>
+</div> -->
