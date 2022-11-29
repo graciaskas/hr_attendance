@@ -840,44 +840,15 @@ textarea {
   background-color: #1ee6b4 !important
 }
 
-
 .bg-secondary {
   background-color: #232332 !important
 }
-
-
 
 .bg-warning {
   background-color: #ffc107 !important
 }
 
-.bg-warning-light-1 {
-  background-color: #ffc720 !important
-}
 
-.bg-warning-light-2 {
-  background-color: #ffcd39 !important
-}
-
-.bg-warning-light-3 {
-  background-color: #ffd451 !important
-}
-
-.bg-warning-light-4 {
-  background-color: #ffda6a !important
-}
-
-.bg-warning-light-5 {
-  background-color: #ffe083 !important
-}
-
-.bg-warning-light-6 {
-  background-color: #ffe69c !important
-}
-
-.bg-warning-light-7 {
-  background-color: #ffecb5 !important
-}
 
 .bg-warning-light-8 {
   background-color: #fff3cd !important
@@ -899,225 +870,19 @@ textarea {
   background-color: #b38705 !important
 }
 
-.bg-warning-dark-4 {
-  background-color: #997404 !important
-}
-
-.bg-warning-dark-5 {
-  background-color: #806104 !important
-}
-
-.bg-warning-dark-6 {
-  background-color: #664d03 !important
-}
-
-.bg-warning-dark-7 {
-  background-color: #4d3a02 !important
-}
-
-.bg-warning-dark-8 {
-  background-color: #332701 !important
-}
-
-.bg-warning-dark-9 {
-  background-color: #1a1301 !important
-}
 
 .bg-danger {
   background-color: #dc3545 !important
-}
-
-.bg-danger-light-1 {
-  background-color: #e04958 !important
-}
-
-.bg-danger-light-2 {
-  background-color: #e35d6a !important
-}
-
-.bg-danger-light-3 {
-  background-color: #e7727d !important
-}
-
-.bg-danger-light-4 {
-  background-color: #ea868f !important
-}
-
-.bg-danger-light-5 {
-  background-color: #ee9aa2 !important
-}
-
-.bg-danger-light-6 {
-  background-color: #f1aeb5 !important
-}
-
-.bg-danger-light-7 {
-  background-color: #f5c2c7 !important
-}
-
-.bg-danger-light-8 {
-  background-color: #f8d7da !important
-}
-
-.bg-danger-light-9 {
-  background-color: #fcebec !important
-}
-
-.bg-danger-dark-1 {
-  background-color: #c6303e !important
-}
-
-.bg-danger-dark-2 {
-  background-color: #b02a37 !important
-}
-
-.bg-danger-dark-3 {
-  background-color: #9a2530 !important
-}
-
-.bg-danger-dark-4 {
-  background-color: #842029 !important
-}
-
-.bg-danger-dark-5 {
-  background-color: #6e1b23 !important
-}
-
-.bg-danger-dark-6 {
-  background-color: #58151c !important
-}
-
-.bg-danger-dark-7 {
-  background-color: #421015 !important
-}
-
-.bg-danger-dark-8 {
-  background-color: #2c0b0e !important
-}
-
-.bg-danger-dark-9 {
-  background-color: #160507 !important
 }
 
 .bg-odoo {
   background-color: #714b67 !important
 }
 
-.bg-odoo-light-1 {
-  background-color: #7f5d76 !important
-}
-
-.bg-odoo-light-2 {
-  background-color: #8d6f85 !important
-}
-
-.bg-odoo-light-3 {
-  background-color: #9c8195 !important
-}
-
-.bg-odoo-light-4 {
-  background-color: #aa93a4 !important
-}
-
-.bg-odoo-light-5 {
-  background-color: #b8a5b3 !important
-}
-
-.bg-odoo-light-6 {
-  background-color: #c6b7c2 !important
-}
-
-.bg-odoo-light-7 {
-  background-color: #d4c9d1 !important
-}
-
-.bg-odoo-light-8 {
-  background-color: #e3dbe1 !important
-}
-
-.bg-odoo-light-9 {
-  background-color: #f1edf0 !important
-}
-
-.bg-odoo-dark-1 {
-  background-color: #66445d !important
-}
-
-.bg-odoo-dark-2 {
-  background-color: #5a3c52 !important
-}
-
-.bg-odoo-dark-3 {
-  background-color: #4f3548 !important
-}
-
-.bg-odoo-dark-4 {
-  background-color: #442d3e !important
-}
-
-.bg-odoo-dark-5 {
-  background-color: #392634 !important
-}
-
-.bg-odoo-dark-6 {
-  background-color: #2d1e29 !important
-}
-
-.bg-odoo-dark-7 {
-  background-color: #22171f !important
-}
-
-.bg-odoo-dark-8 {
-  background-color: #170f15 !important
-}
-
-.bg-odoo-dark-9 {
-  background-color: #0b080a !important
-}
-
 .bg-white {
   background-color: #fff !important
 }
 
-.bg-white-light-1 {
-  background-color: #fff !important
-}
-
-.bg-white-light-2 {
-  background-color: #fff !important
-}
-
-.bg-white-light-3 {
-  background-color: #fff !important
-}
-
-.bg-white-light-4 {
-  background-color: #fff !important
-}
-
-.bg-white-light-5 {
-  background-color: #fff !important
-}
-
-.bg-white-light-6 {
-  background-color: #fff !important
-}
-
-.bg-white-light-7 {
-  background-color: #fff !important
-}
-
-.bg-white-light-8 {
-  background-color: #fff !important
-}
-
-.bg-white-light-9 {
-  background-color: #fff !important
-}
-
-.bg-white-dark-1 {
-  background-color: #e6e6e6 !important
-}
 
 .bg-white-dark-2 {
   background-color: #ccc !important
