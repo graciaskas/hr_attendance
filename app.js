@@ -1,18 +1,14 @@
-const path = require('path');
 const env = require('dotenv');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const flash = require('connect-flash');
 const session = require('express-session');
 const cors = require('cors');
-const methodOverride = require('method-override');
-const bcrypt = require("bcryptjs");
+const expressLayouts = require("express-ejs-layouts");
 
 const { logger } = require('./middlewares/Logger');
 const { forwardAuth, requireAuth  } =  require('./middlewares/auth.middleware');
 
-const sql = require('./database/mysql');
 
 env.config();
 const app = express();
@@ -22,10 +18,9 @@ app.use(logger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(methodOverride('_method'));
 
-// sql.connect();
-
+// app.use(expressLayouts)
+// app.set('layout', './Layouts/main');
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -35,18 +30,10 @@ app.use(
     secret: process.env.SESSION_SECRET='secret',
     resave: true,
     saveUninitialized: true,
+    // cookie:{ maxAge: 6000 }
   })
 );
 
-app.use(flash());
-
-// Global variables
-app.use((req, res, next) => {
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
-  res.locals.error = req.flash('error');
-  next();
-});
 
 
 app.use(bodyParser.urlencoded({ extended: false }));

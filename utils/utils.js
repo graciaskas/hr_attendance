@@ -7,16 +7,16 @@ let db = MySQL.connect();
 
 //Hash password function
 const hashPassword = (password) => {
-    return new Promise((resolve, reject) => {
-        bcrypt.genSalt(12, (err, salt) => {
-            if (err) reject(err);
-            bcrypt.hash(password, salt, function (error, hash) {
-                if (error) reject(error);
-                resolve(hash);
-            });
-        });
+   return new Promise((resolve, reject) => {
+    bcrypt.hash(password, 8, function (err, hashedPassword) {
+      if (err) return reject(err);
+      return resolve(hashedPassword);
     });
+  });
 };
+
+
+
 
 // Database query promise
 const query = (sql) => {

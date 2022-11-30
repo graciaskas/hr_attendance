@@ -21,22 +21,11 @@
                         <div class="container">
                             <div class="row">
 
-                                <% 
-                                    var reports = [
-                                        { 
-                                            name: 'Attendances list',
-                                            modal: 'attendance_report_list',
-                                            app:'attendances'
-                                        }
-                                    ];
-                                %>
-
                                 <%- 
                                     barCreate({ 
                                         appName, 
                                         appRootLocation,
-                                        create: true,
-                                        reports 
+                                        create: true 
                                     }) 
                                 %>
 

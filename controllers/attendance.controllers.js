@@ -95,7 +95,8 @@ exports.update = async (req, res) => {
 
 exports.kiosque = async (req, res) => {
 
-  //Get the lastest attendance from this user employee
+  try {
+    //Get the lastest attendance from this user employee
   let sql = 'SELECT * FROM hr_attendances WHERE employee_id = ? and state = "draft" order by id desc limit 1';
   let data = await queryDBParams(sql, req.user.employee_id);
 
@@ -152,8 +153,6 @@ exports.kiosque = async (req, res) => {
       });
     }
 
-    
-    
   } else {
     canCheckOut = false;
     hasCheckOut = false;
@@ -161,14 +160,21 @@ exports.kiosque = async (req, res) => {
     //return res.redirect("/attendances");
   }
 
-  return res.render('Attendance/kiosque', {
-    user: req.user,
-    canCheckOut,
-    t,
-    checkin: data.length && data[ 0 ].checkin || null,
-    hasCheckOut
-  });
-  
+    return res.render('Attendance/kiosque', {
+      user: req.user,
+      canCheckOut,
+      t,
+      checkin: data.length && data[ 0 ].checkin || null,
+      hasCheckOut
+    });
+
+
+  } catch (error) {
+    res.render('error', {
+      code: 5000,
+      content: error.message || error
+    });
+  }
 }
 
 

@@ -27,21 +27,24 @@ exports.requireAuth = (req, res, next) => {
   try {
     
     const token = req.cookies.jwt;
-    if (!token) res.redirect('/login')
+    
+    if (!token) {
+      return res.redirect('/login');
+    }
 
     jwt.verify(token, process.env.JWT_SECRET, async (err, result) => {
-      if (err) {
-        res.redirect(403, '/login');
-      } else {
-        const { user } = result;
-        const data = await selectID(user.id);
-        if (data.length === 0) {
-          res.redirect(403,'/unauthorized');
-        } else {
-          req.user = user;
-          next();
-        }
-      }
+      if (err) return res.redirect(403, '/login');
+      
+      const { user } = result;
+      const data = await selectID(user.id);
+        
+      if (data.length === 0) {
+        return res.redirect(403, '/unauthorized');  
+      } 
+        
+      req.user = user;
+      next();
+      
     });
 
   } catch (error) {

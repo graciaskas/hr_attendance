@@ -1,38 +1,15 @@
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const session = require('express-session');
-const uuidv4 = require('uuid').v4;
 const mailgun = require('mailgun-js');
 const { DOMAIN, DB_NAME }  = process.env;
 const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: DOMAIN });
 
 const MySQL = require('../database/mysql');
-const { paginate } = require('../utils/utils');
+const { paginate, queryDBParams } = require('../utils/utils');
 
 // Students limit per section
 const SECTION_LIMIT = 20;
-
-
-const queryParamPromise = (sql, queryParam) => {
-  const db = MySQL.connect();
-  return new Promise((resolve, reject) => {
-    db.query(sql, queryParam, (err, results) => {
-      if (err) return reject(err);
-      return resolve(results);
-    });
-  });
-};
-
-// Hash password
-const hashing = (password) => {
-  return new Promise((resolve, reject) => {
-    bcrypt.hash(password, 8, function (err, hashedPassword) {
-      if (err) return reject(err);
-      return resolve(hashedPassword);
-    });
-  });
-};
 
 
 
@@ -46,7 +23,7 @@ exports.postForgotPassword = async (req, res, next) => {
   let errors = [];
 
   const sql1 = 'SELECT * from admin WHERE email = ?';
-  const results = await queryParamPromise(sql1, [email]);
+  const results = await queryDBParams(sql1, [email]);
   if (!results || results.length === 0) {
     errors.push({ msg: 'That email is not registered!' });
     res.status(401).render('Admin/forgotPassword', {
@@ -80,7 +57,6 @@ exports.postForgotPassword = async (req, res, next) => {
       mg.messages().send(data, (err, body) => {
         if (err) throw err;
         else {
-          req.flash('success_msg', 'Reset Link Sent Successfully!');
           res.redirect('/admin/forgot-password');
         }
       });
@@ -141,28 +117,6 @@ exports.postResetPassword = (req, res, next) => {
 
 
 
-exports.postPasswordSettings = async (req, res, next) => {
-  const { old_password, new_password, confirm_new_password } = req.body;
-  if (new_password !== confirm_new_password) {
-    req.flash('error_msg', 'Passwords does not match');
-    return res.redirect('/admin/password_settings');
-  }
-  const sql1 = 'SELECT * FROM admin WHERE admin_id = ?';
-  const user = (await queryParamPromise(sql1, [req.user]))[0];
-  if (!(await bcrypt.compare(old_password, user.password))) {
-    req.flash('error_msg', 'Incorrect password');
-    return res.redirect('/admin/password_settings');
-  } else {
-    const hashedPassword = await hashing(new_password);
-    const sql2 = 'update admin set password = ? where admin_id = ?';
-    await queryParamPromise(sql2, [hashedPassword, req.user]);
-    req.flash('success_msg', 'Password Changed Successfully');
-    return res.redirect('/admin/password_settings');
-  }
-};
-
-
-
 // 1.3 Dashboard
 exports.getDashboard = async (req, res, next) => {
   try {
@@ -198,7 +152,7 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getLogin = (req, res, next) => {
-  res.render('login');
+  res.render('login', { error: {} });
 };
 
 exports.getLanding = (req, res, next) => {

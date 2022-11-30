@@ -15,11 +15,14 @@ exports.postLogin = (req, res, next) => {
 
   try {
     const { email, password } = req.body;
-    let errors = [];
     
     if (!email || !password) {
-      errors.push({ msg: 'Please enter all fields' });
-      return res.status(400).render('index', { errors });
+      return res.status(400).render('index', {
+        error: {
+          type: 'danger',
+          message: "Please fill in all the fields !"
+        }
+      });
     }
 
     let sql = 'SELECT * FROM hr_users WHERE email = ?';
@@ -29,14 +32,16 @@ exports.postLogin = (req, res, next) => {
         
         if (results.length === 0) {
           return res.status(401).render('login', {
-            error: 'Invalid email address',
+            error: {
+              type: 'danger',
+              message: "We could not find this account !"
+            },
             ...req.body
           });
 
         } else {
           const user = results[ 0 ];
           
-
           //decrypt and compare password with hashed db password
           bcrypt.compare(password, user.password, (e, result) => {
             if (e) { console.log(e); } else {
