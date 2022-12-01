@@ -1,0 +1,75 @@
+<div class="modal fade" id="attendance_report_list">
+    <div class="modal-dialog">
+        <div class="modal-content  text-secondary">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fa fa-key badge bg-secondary"></i>
+                    Attendances list report
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+
+            <form action="/api/attendances/?action=report" method="post">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-6 col-12">
+                            <div class="input">
+                                <label for="checkin">CheckIn date</label>
+                                <div class="border rounded input-group mt-1">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="datetime-local" class="border form-control" name="checkin" id="checkin"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-12">
+                            <div class="input">
+                                <label for="checkout">CheckOut date</label>
+                                <div class="border rounded input-group mt-1">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="datetime-local" class="border form-control" name="checkout" id="checkout"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="input w-100 mt-1">
+                                <label for="state">State</label>
+                                <div class="border rounded input-group mt-1">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-list"></i>
+                                    </div>
+                                    <select name="state" id="state" class="w-100">
+                                        <option value="draft">Draft</option>
+                                        <option value="approved">Approved</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                                       
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn bg-primary text-white" type="submit">
+                        <i class="fa fa-file-pdf"></i>
+                        Print Pdf
+                    </button>
+                    <button class="btn bg-secondary text-white" type="submit"> 
+                        <i class="fa fa-file-excel"></i>
+                        Print excel
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

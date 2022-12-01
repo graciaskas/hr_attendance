@@ -24,20 +24,20 @@
                         <%= user.name %>
                     </a>
 
-                    <ul class="dropdown-menu  p-4 shadow-default border-0 rounded" aria-labelledby="dropdownProducts">
+                    <ul class="dropdown-menu  p-3 shadow-default border-0 rounded" aria-labelledby="dropdownProducts">
                         <li>
-                            <a href='/users/view/<%= user.id %>' class="dropdown-itemx">My profile</a>
+                            <a href='/users/view/<%= user.id %>' class="dropdown-item">My profile</a>
                         </li>
                         <% if(user.employee_id != undefined || user.employee_id != null ){ %>
                             <li>
-                                <a href='/employees/view/<%= user.employee_id %>' class="dropdown-itemx">My HR Info</a>
+                                <a href='/employees/view/<%= user.employee_id %>' class="dropdown-item">My HR Info</a>
                             </li>
                         <% } %>
                         <li>
-                            <a href='https://zeslap.com' target="_blank" class="dropdown-itemx">Documentation</a>
+                            <a href='https://zeslap.com' target="_blank" class="dropdown-item">System documentation </a>
                         </li>
                         <li>
-                            <a href="/logout" class="d-flex align-items-center dropdown-itemx">
+                            <a href="/logout" class="d-flex align-items-center dropdown-item">
                                 <i class="fa fa-sign-out-alt"></i>
                                 <span>Logout</span>
                             </a>

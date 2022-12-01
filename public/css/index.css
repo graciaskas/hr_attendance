@@ -839,6 +839,77 @@ textarea {
 .bg-success {
   background-color: #1ee6b4 !important
 }
+.bg-success-light-1 {
+  background-color: #35e9bc !important
+}
+
+.bg-success-light-2 {
+  background-color: #4bebc3 !important
+}
+
+.bg-success-light-3 {
+  background-color: #62eecb !important
+}
+
+.bg-success-light-4 {
+  background-color: #78f0d2 !important
+}
+
+.bg-success-light-5 {
+  background-color: #8ff3da !important
+}
+
+.bg-success-light-6 {
+  background-color: #a5f5e1 !important
+}
+
+.bg-success-light-7 {
+  background-color: #bcf8e9 !important
+}
+
+.bg-success-light-8 {
+  background-color: #d2faf0 !important
+}
+
+.bg-success-light-9 {
+  background-color: #e9fdf8 !important
+}
+
+.bg-success-dark-1 {
+  background-color: #1bcfa2 !important
+}
+
+.bg-success-dark-2 {
+  background-color: #18b890 !important
+}
+
+.bg-success-dark-3 {
+  background-color: #15a17e !important
+}
+
+.bg-success-dark-4 {
+  background-color: #128a6c !important
+}
+
+.bg-success-dark-5 {
+  background-color: #0f735a !important
+}
+
+.bg-success-dark-6 {
+  background-color: #0c5c48 !important
+}
+
+.bg-success-dark-7 {
+  background-color: #094536 !important
+}
+
+.bg-success-dark-8 {
+  background-color: #062e24 !important
+}
+
+.bg-success-dark-9 {
+  background-color: #031712 !important
+}
 
 .bg-secondary {
   background-color: #232332 !important
@@ -884,188 +955,12 @@ textarea {
 }
 
 
-.bg-white-dark-2 {
-  background-color: #ccc !important
-}
-
-.bg-white-dark-3 {
-  background-color: #b3b3b3 !important
-}
-
-.bg-white-dark-4 {
-  background-color: #999 !important
-}
-
-.bg-white-dark-5 {
-  background-color: gray !important
-}
-
-.bg-white-dark-6 {
-  background-color: #666 !important
-}
-
-.bg-white-dark-7 {
-  background-color: #4d4d4d !important
-}
-
-.bg-white-dark-8 {
-  background-color: #333 !important
-}
-
-.bg-white-dark-9 {
-  background-color: #1a1a1a !important
-}
-
 .bg-gray {
   background-color: #f7f4f4 !important
 }
 
-.bg-gray-light-1 {
-  background-color: #f8f5f5 !important
-}
-
-.bg-gray-light-2 {
-  background-color: #f9f6f6 !important
-}
-
-.bg-gray-light-3 {
-  background-color: #f9f7f7 !important
-}
-
-.bg-gray-light-4 {
-  background-color: #faf8f8 !important
-}
-
-.bg-gray-light-5 {
-  background-color: #fbfafa !important
-}
-
-.bg-gray-light-6 {
-  background-color: #fcfbfb !important
-}
-
-.bg-gray-light-7 {
-  background-color: #fdfcfc !important
-}
-
-.bg-gray-light-8 {
-  background-color: #fdfdfd !important
-}
-
-.bg-gray-light-9 {
-  background-color: #fefefe !important
-}
-
-.bg-gray-dark-1 {
-  background-color: #dedcdc !important
-}
-
-.bg-gray-dark-2 {
-  background-color: #c6c3c3 !important
-}
-
-.bg-gray-dark-3 {
-  background-color: #adabab !important
-}
-
-.bg-gray-dark-4 {
-  background-color: #949292 !important
-}
-
-.bg-gray-dark-5 {
-  background-color: #7c7a7a !important
-}
-
-.bg-gray-dark-6 {
-  background-color: #636262 !important
-}
-
-.bg-gray-dark-7 {
-  background-color: #4a4949 !important
-}
-
-.bg-gray-dark-8 {
-  background-color: #313131 !important
-}
-
-.bg-gray-dark-9 {
-  background-color: #191818 !important
-}
-
 .bg-cyan {
   background-color: #17a2b8 !important
-}
-
-.bg-cyan-light-1 {
-  background-color: #2eabbf !important
-}
-
-.bg-cyan-light-2 {
-  background-color: #45b5c6 !important
-}
-
-.bg-cyan-light-3 {
-  background-color: #5dbecd !important
-}
-
-.bg-cyan-light-4 {
-  background-color: #74c7d4 !important
-}
-
-.bg-cyan-light-5 {
-  background-color: #8bd1dc !important
-}
-
-.bg-cyan-light-6 {
-  background-color: #a2dae3 !important
-}
-
-.bg-cyan-light-7 {
-  background-color: #b9e3ea !important
-}
-
-.bg-cyan-light-8 {
-  background-color: #d1ecf1 !important
-}
-
-.bg-cyan-light-9 {
-  background-color: #e8f6f8 !important
-}
-
-.bg-cyan-dark-1 {
-  background-color: #1592a6 !important
-}
-
-.bg-cyan-dark-2 {
-  background-color: #128293 !important
-}
-
-.bg-cyan-dark-3 {
-  background-color: #107181 !important
-}
-
-.bg-cyan-dark-4 {
-  background-color: #0e616e !important
-}
-
-.bg-cyan-dark-5 {
-  background-color: #0c515c !important
-}
-
-.bg-cyan-dark-6 {
-  background-color: #09414a !important
-}
-
-.bg-cyan-dark-7 {
-  background-color: #073137 !important
-}
-
-.bg-cyan-dark-8 {
-  background-color: #052025 !important
-}
-
-.bg-cyan-dark-9 {
-  background-color: #021012 !important
 }
 
 .bg-orange {
@@ -1567,12 +1462,12 @@ textarea {
   font-size: 25px
 }
 
-.dropdown .dropdown-toggle {
+/* .dropdown .dropdown-toggle {
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
   overflow: hidden !important;
   outline: none !important
-}
+} */
 
 .dropdown-menu {
   border: 1px solid #efefef;
@@ -1580,6 +1475,7 @@ textarea {
   color: #666;
   height: auto;
   max-height: 95vh;
+  width: auto !important;
 }
 
 .dropdown-menu .dropdown-title {
@@ -1597,13 +1493,9 @@ textarea {
   margin-left: 0 !important;
   padding: .3rem 0;
   display: block;
-  border-radius: .15rem
-}
-
-.dropdown-menu .dropdown-itemx:hover {
-  color: #232332;
-  background-color: #ddf1fd !important;
-  padding: .35rem .55rem
+  border-radius: .15rem;
+  display: block !important;
+  width: 100% !important;
 }
 
 .dropdown-menu .dropdown-item {
@@ -1612,8 +1504,17 @@ textarea {
   font-family: "Montserrat", sans-serif !important;
   text-transform: capitalize !important;
   font-size: .85rem !important;
-  padding: .25rem .5rem;
-  border-radius: .15rem
+  padding: .27rem .5rem;
+  border-radius: .11rem
+}
+
+.dropdown-menu .dropdown-item:hover {
+  color: #232332;
+  background-color: #ddf1fd !important;
+}
+.dropdown-menu .dropdown-item:focus {
+  color: var(--white) !important;
+  background-color: var(--primary) !important;
 }
 
 .dropdown-menu ul {
@@ -1940,7 +1841,9 @@ body {
 .App aside.navigation {
   /*! App aside navigation menu */
   height: 100vh;
-  width: 22%
+  width: 22%;
+  overflow-y: auto;
+  
 }
 
 @media(max-width: 768px) {
@@ -1964,7 +1867,7 @@ body {
 .App aside.navigation .navigation-nav {
   /*! App aside menus */
   width: 100%;
-  padding: .91rem
+  padding: .4rem .91rem
 }
 
 .App aside.navigation .navigation-nav a {
@@ -2002,9 +1905,8 @@ body {
 }
 
 .App aside.navigation .navigation-nav .navigation-dropdown .multi-collapse {
-  padding: .35rem;
-  border-radius: .25rem;
-  margin-top: 5px
+  padding: 0;
+  margin: 0
 }
 
 .App main {
@@ -2132,6 +2034,9 @@ body {
 
 .App main .main-content .user-card {
   border: 1px solid #dee2e6
+}
+.App main .main-content .user-card h6{
+  font-size: .83rem;
 }
 
 .App main .main-content .user-card img {

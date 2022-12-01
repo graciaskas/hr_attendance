@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-const { barCreate, paginate, queryDB, queryDBParams, fieldGet, datesInterval } = require("../utils/utils");
+const { barCreate, paginate, queryDB, queryDBParams, fieldGet, datesInterval, toLocalDate, toIsoDateString } = require("../utils/utils");
 
 exports.index = async (req, res, next) => {
   try {
@@ -21,12 +21,14 @@ exports.index = async (req, res, next) => {
       appRootLocation: '/attendances',
       barCreate,
       data: data.data,
-      user:req.user
+      user: req.user,
+      req
     });
+    
   } catch (error) {
     res.render("error", {
-        code: 500,
-        content: error.message || error
+      code: 500,
+      content: error.message || error
     })
   }
 }
@@ -84,59 +86,89 @@ exports.update = async (req, res) => {
         });
         
     } catch (error) {
-        res.render("error", {
-            code: 500,
-            content: error.message || error
-        })
+      res.render("error", {
+        code: 500,
+        content: error.message || error
+      });
     }
 }
 
 exports.kiosque = async (req, res) => {
+
+  //Get the lastest attendance from this user employee
   let sql = 'SELECT * FROM hr_attendances WHERE employee_id = ? and state = "draft" order by id desc limit 1';
   let data = await queryDBParams(sql, req.user.employee_id);
+
   let canCheckOut = false;
   let hasCheckOut = false;
+
   let t = null;
 
-  
-  if (data.length != 0) {
-    canCheckOut = true;
-    let currentTime = new Date();
-    let { checkin, id } = data[0];
-   
+  //If has attendee
+  if (data.length > 0) {
     
-    let d = checkin.slice(0, 2);
-    let m = checkin.slice(3, 5);
-    let y = checkin.slice(6, 10);
-    let time = checkin.slice(10, checkin.length);
+    canCheckOut = true; //Can checkout;
+    let currentTime = new Date();  //Current date time;
+    
+    let { checkin, id } = data[ 0 ];
+    
+   //Convert checkin date to corresponding date format;
+    checkin = toIsoDateString(checkin);
 
-    checkin = `${m}-${d}-${y} ${time}`;
-
+    //Interval between checkin and current date time;
     t = datesInterval(checkin, currentTime.toISOString());
     t.id = id;
 
     //If the user or employee has checked out;
     if (data[ 0 ].checkout != null) {
       hasCheckOut = true;
-      res.render('error', {
+
+      /*** 
+       * If it is not the same day 
+       * 
+      */
+      let checkout = new Date(toIsoDateString(data[ 0 ].checkout));
+      //Checkout to current timed seconds difference
+      let checkoutToNowDiffSec = Math.floor((currentTime - checkout) / 1000);
+      //Get days form checkoutToNowDiffSec;
+      let days = Math.floor(checkoutToNowDiffSec / (60 * 60 * 24));
+
+      if (days != 0) {
+        canCheckOut = false;
+        hasCheckOut = false;
+
+        return res.render('Attendance/kiosque', {
+          user: req.user,
+          canCheckOut,
+          t,
+          checkin: data.length && data[ 0 ].checkin || null,
+          hasCheckOut
+        });
+      }
+
+      return  res.render('error', {
         code: 403,
         content: 'You have Checked Out At ' + data[ 0 ].checkout
       });
     }
+
     
+    
+  } else {
+    canCheckOut = false;
+    hasCheckOut = false;
+    return res.json(req.user);
+    //return res.redirect("/attendances");
   }
-  
-  res.render('Attendance/kiosque', {
-    page_name: null,
-    appName: 'Attendances',
-    appRootLocation: '/Attendances',
-    barCreate,
+
+  return res.render('Attendance/kiosque', {
     user: req.user,
     canCheckOut,
     t,
-    checkin: data[ 0 ].checkin,
+    checkin: data.length && data[ 0 ].checkin || null,
     hasCheckOut
   });
+  
 }
 
 
@@ -195,8 +227,17 @@ exports.apiPost = async (req, res, next) => {
   }
 }
 
-exports.apiPut = (req, res) => {
+exports.apiPut = (req, res, next) => {
   try {
+    
+    let { action } = req.query;
+    if (action) {
+      if (action != 'update') {
+        next();
+        return;
+      }
+    }
+
     let sql = 'UPDATE hr_attendances SET ? where id = '+req.body.id;
     queryDBParams(sql, req.body)
       .then(result => res.redirect("/attendances"))
@@ -207,6 +248,35 @@ exports.apiPut = (req, res) => {
           content: error.message || error
         });
       });
+  } catch (error) {
+    console.log(error);
+    res.render("error", {
+      code: 500,
+      content: error.message || error
+    });
+  }
+}
+
+
+exports.apiReport = async (req, res, next) => {
+  try {
+    let { action } = req.query;
+    if (action) {
+      if (action != 'report') {
+        next();
+        return;
+      }
+    }
+
+    let { checkin, checkout, state } = req.body;
+
+    checkin = toLocalDate(checkin);
+    checkout = toLocalDate(checkout);
+
+    let sql = 'SELECT * FROM hr_attendances';
+    let data = await queryDB(sql);
+
+    res.json(data)
   } catch (error) {
     console.log(error);
     res.render("error", {

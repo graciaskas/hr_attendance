@@ -25,20 +25,18 @@ const selectID = (id) => {
 
 exports.requireAuth = (req, res, next) => {
   try {
+    
     const token = req.cookies.jwt;
     if (!token) res.redirect('/login')
 
     jwt.verify(token, process.env.JWT_SECRET, async (err, result) => {
       if (err) {
-        res.render('error', {
-          code: 500,
-          content: err.message || err
-        })
+        res.redirect(403, '/login');
       } else {
         const { user } = result;
         const data = await selectID(user.id);
         if (data.length === 0) {
-          res.redirect('/unauthorized');
+          res.redirect(403,'/unauthorized');
         } else {
           req.user = user;
           next();

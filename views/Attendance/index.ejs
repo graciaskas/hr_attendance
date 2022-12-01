@@ -7,17 +7,40 @@
 
                 <%- include('../Includes/header.ejs') %>
 
+                <%- include("../Reports/attendances"); %>
+
+                <!-- 
+                    <% if(req.query.report) { %>
+                    
+                    <% } %> 
+                -->
+
+                
+
                     <div class="main-content">
                         <div class="container">
                             <div class="row">
+
+                                <% 
+                                    var reports = [
+                                        { 
+                                            name: 'Attendances list',
+                                            modal: 'attendance_report_list',
+                                            app:'attendances'
+                                        }
+                                    ];
+                                %>
 
                                 <%- 
                                     barCreate({ 
                                         appName, 
                                         appRootLocation,
-                                        create: true 
+                                        create: true,
+                                        reports 
                                     }) 
                                 %>
+
+                                
 
                                 <div class="col-12">
                                     <div class="bg-white p-3 shadow-default rounded">

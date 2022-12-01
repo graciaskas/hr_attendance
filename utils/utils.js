@@ -49,11 +49,39 @@ const fieldGet = (id, field, tableName) => {
     });
 };
 
+
+exports.toLocalDate = (date) => { 
+    let date_converted = new Date(date);
+    if (date instanceof Date && !isNaN(date)){
+        throw Error(`Invalid date given ${date}`);
+    } else {
+        return date_converted.toLocaleString();
+    }
+}
+
+exports.toIsoDateString = (datestring) => {
+    let d = datestring.slice(0, 2);
+    let m = datestring.slice(3, 5);
+    let y = datestring.slice(6, 10);
+    let time = datestring.slice(10, datestring.length);
+
+    return `${m}-${d}-${y} ${time}`;
+};
+
+/**
+ * Get interval between two given date time
+ * @param {*} dateOne argument date one
+ * @param {*} dateTwo argument date two
+ * @returns date interval object including days, hours, minutes and second.
+*/
 const datesInterval = (dateOne, dateTwo) => {
    if (!dateOne && !dateTwo) throw Error("Arguments missed");
-   try {
+    try {
+
+       //Create date instances;
         let dOne = new Date(dateOne);
         let dTwo = new Date(dateTwo);
+
 
         //Get the date difference
         let difference = dTwo.getTime() - dOne.getTime();
@@ -80,6 +108,7 @@ const datesInterval = (dateOne, dateTwo) => {
     }
 }
 
+//--> https://graciaskas96.hashnode.dev/
 
 
 exports.paginate = function (req, tableName,sql) {
@@ -136,7 +165,44 @@ exports.paginate = function (req, tableName,sql) {
 
 exports.barCreate = (options) => {
     
-    const { appName, appRootLocation, create } = options;
+    let { appName, appRootLocation, create, reports = [] } = options;
+
+    // reports = [
+    //     { 
+    //         name: 'Attendances list',
+    //         modal: 'attendance_report_list',
+    //         app:'attendances'
+    //     },
+    //     { 
+    //         name: 'Checkin list',
+    //         mdal: 'checkin_list',
+    //         app:'attendances'
+    //     },
+    //     { 
+    //         name: 'Checkout list',
+    //         modal: 'checkout_list',
+    //         app:'attendances'
+    //     }
+    // ];
+    
+    console.log(reports);
+
+    let reportList = reports.map(report => {
+        let item = `
+            <li>
+                <a  
+                    class="dropdown-item"
+                    data-bs-toggle="modal"
+                    role="button"
+                    data-bs-target="#${report.modal}">
+                    ${report.name}
+                </a>
+            </li>
+        `;
+        return item;
+    });
+
+
     return `
         <div class="col-12 mb-3">
                 <div class="d-flex flex-wrap align-items-center justify-content-between bg-white rounded shadow-default p-3">
@@ -144,7 +210,7 @@ exports.barCreate = (options) => {
                     <h5 class='text-secondary text-raleway' style='margin-bottom:2px'>
                         <a href='/'><i class='fa fa-home'></i></a> /
                         <a href="/${appName.toLowerCase()}">${appName}</a> /
-                        ${ create ==  true? `<a href="${appName.toLowerCase()}/create">Create</a>`:''}
+                        ${create == true ? `<a href="${appName.toLowerCase()}/create">Create</a>` : ''}
                     </h5>
             
             
@@ -153,25 +219,28 @@ exports.barCreate = (options) => {
                             <a to="#" class="page-link dropdown-toggle" id="dropdownFilters" data-bs-toggle="dropdown">
                                 <i class='fa fa-filter'></i> Filter
                             </a>
+
                             <ul class="dropdown-menu p-4 shadow-default border-0 rounded w-auto" aria-labelledby="dropdownFilters">
-                                <li>
-                                    <a href="#" class="dropdown-itemx">All</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="dropdown-itemx">Archived</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="dropdown-itemx">Not activated</a>
-                                </li>
-                                <li>
-                                    <a class='dropdown-itemx'><i class='fa fa-plus-circle'></i> Custom filter</a>
-                                </li>
+                                <li><a href="#" class="dropdown-item">All</a></li>
+                                <li><a href="#" class="dropdown-item">Archived</a></li>
+                                <li><a href="#" class="dropdown-item">Not activated</a></li>
+                                <li><a class='dropdown-item'><i class='fa fa-plus-circle'></i> Custom filter</a></li> 
                             </ul>
                         </li>
+
                         <li class="page-item">
                             <a to="?view=grid" class="page-link">
-                                <i class='fa fa-bars'></i> Group by
+                                <i class='fa fa-bars'></i> Group
                             </a>
+                        </li>
+                        
+                        <li class="page-item dropdown">
+                            <a class="page-link dropdown-toggle" id="rprts" data-bs-toggle="dropdown" role="button">
+                                <i class='fa fa-file-pdf'></i> Reports
+                            </a>
+                            <ul class="dropdown-menu p-3 shadow-default border-0 rounded w-auto" aria-labelledby="rprts">
+                                ${reportList.toString().replace(","," ")}
+                            </ul>
                         </li>
                     </div>
             
@@ -209,6 +278,7 @@ exports.barCreate = (options) => {
                             <a href='?view=list' class="page-link">
                                 <i class='fa fa-list'></i>
                             </a>
+                            
                         </li>
             
             

@@ -44,7 +44,7 @@ exports.view = async (req, res, next) => {
     let { id } = req.params || null;
     if (!id && isNaN(id)) throw Error("invalid type parameter !");
 
-    let data = await zeroParamPromise('select * from hr_users where id = ' + id);
+    let data = await queryDB('select * from hr_users where id = ' + id);
     
     res.render("User/view", {
         page_name: null,

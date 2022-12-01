@@ -3,7 +3,10 @@
 
     <div class="d-flex align-items-center navigation-header bg-white">
         <img src="/icons/favicon.png" alt="" width={38} />
-        <h4 class="text-secondary" style="padding-top:7px"><strong class="badge bg-primary">HR</strong> Attendance.</h4>
+        <h4 class="text-secondary" style="padding-top:7px">
+            <strong class="p-2 rounded  text-white bg-primary">HR</strong> 
+            Attendance.
+        </h4>
     </div>
 
     <div class='navigation-nav'>
@@ -17,14 +20,14 @@
                 <i class="fas fa-users"></i>
                 <span class="text-decoration-none t-white">Employees</span>
                 <i class='badge rounded-pill bg-orange float-right'>
-                    <%= data.length %>
+                    12
                 </i>
             </a>
             <a href="/departments" class="d-flex align-items-center">
                 <i class="fas fa-columns"></i>
                 <span class="text-decoration-none t-white">Departments</span>
                 <i class='badge rounded-pill bg-warning float-right'>
-                    <%= data.length %>
+                    05
                 </i>
             </a>
         <% } %>
@@ -37,21 +40,22 @@
             <div class="collapse multi-collapse bg-secondary-dark-2 rounded" id="multiCollapseExample1">
                 <% if ( user.role=='admin' || user.role=='user' ) { %>
                     <a href="/attendances" class='d-flex align-items-center'>
-                        <i class="fas fa-columns"></i>
+                        <i class="fas fa-user"></i>
                         <span class="text-decoration-none t-white">Attendances</span>
                         <i class='badge rounded-pill bg-primary float-right'>
-                            <%= data.length %>
+                            09
                         </i>
                     </a>
                 <% } %>
                 
                 <a href="/attendances/kiosque" class='d-flex align-items-center'>
-                    <i class="fas fa-columns"></i>
+                    <i class="fas fa-fingerprint"></i>
                     <span class="text-decoration-none t-white">KioSque Mode</span>
                 </a>
                
             </div>
         </li>
+
 
         <% if ( user.role=='admin' || user.role=='user' ) { %>
             <li class='navigation-dropdown'>
