@@ -1,6 +1,8 @@
-const mysql = require('mysql');
-const jwt = require('jsonwebtoken');
+const fs = require("fs");
+const path = require("path");
 const bcrypt = require('bcryptjs');
+const PDF = require("html-pdf");
+const ejs = require("ejs");
 
 const MySQL = require('../database/mysql');
 let db = MySQL.connect();
@@ -111,14 +113,14 @@ const datesInterval = (dateOne, dateTwo) => {
 //--> https://graciaskas96.hashnode.dev/
 
 
-exports.paginate = function (req, tableName,sql) {
+exports.paginate = function (req, tableName, sql) {
     return new Promise(async (resolve, reject) => {
         try {
             let { pg, lim } = req.query;
             let total = await query(`select count(*) as total from ${tableName}`);
             
             let itemsPerPage = parseInt(lim) || 24;
-            let total_pages = Math.ceil(total[0].total / itemsPerPage);
+            let total_pages = Math.ceil(total[ 0 ].total / itemsPerPage);
             let currentPage = 1;
             
             if (pg) {
@@ -127,10 +129,10 @@ exports.paginate = function (req, tableName,sql) {
                     if (pg > total_pages) {
                         currentPage = total_pages;
                     }
-                }else {
+                } else {
                     reject("Invalid parameter passed");
                 }
-            } 
+            }
 
             let start = (currentPage - 1) * itemsPerPage;
 
@@ -161,31 +163,36 @@ exports.paginate = function (req, tableName,sql) {
             reject(error);
         }
     })
-} 
+};
+
+exports.generatePDF = ( fileName, data, reportName, res ) => {
+    try {
+        let template = path.join(__dirname, '..', `views/Reports/${fileName}`);
+        let output = path.join(__dirname, '..', `reports/pdf/${reportName}.pdf`);
+
+		//-- render dynamicaly an ejs file 
+        ejs.renderFile(template, { ...data, reportName }, (err, result) => {
+            if (err) throw err;
+			let options = { "format": 'A4' };
+            PDF //create pdf usign html-pdf
+                .create(result, options)
+                .toFile(output, function (error, data) {
+                    if (err) throw error;
+                    res.download(output);
+                });
+		});
+	} catch (error) {
+		console.log(error);
+        return res.json({
+            message: error.message,
+            stack: error.stack
+        });
+	}
+};
 
 exports.barCreate = (options) => {
     
     let { appName, appRootLocation, create, reports = [] } = options;
-
-    // reports = [
-    //     { 
-    //         name: 'Attendances list',
-    //         modal: 'attendance_report_list',
-    //         app:'attendances'
-    //     },
-    //     { 
-    //         name: 'Checkin list',
-    //         mdal: 'checkin_list',
-    //         app:'attendances'
-    //     },
-    //     { 
-    //         name: 'Checkout list',
-    //         modal: 'checkout_list',
-    //         app:'attendances'
-    //     }
-    // ];
-    
-    console.log(reports);
 
     let reportList = reports.map(report => {
         let item = `

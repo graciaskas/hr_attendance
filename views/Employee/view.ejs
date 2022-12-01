@@ -49,17 +49,19 @@
                                                                 <i class="fa fa-circle stat-icon text-danger"></i>
                                                             <% } %>
                                                             <div class="stat-info pt-2">
-                                                                <span class="d-block">Attendance</span>
+                                                                <span class="d-block">Absent</span>
                                                             </div>
                                                         </div>
                                                 
-                                                        <div class="stat-button d-flex align-item-center px-2">
+                                                        <a class="stat-button d-flex align-item-center px-2 text-secondary" href="/attendances/?eq=<%=data.id%>">
                                                             <i class="fa fa-list stat-icon"></i>
                                                             <div class="stat-info">
-                                                                <span class="stat_value badge bg-secondary d-inline-block">1</span>
-                                                                <span class="d-block">Attendances</span>
+                                                                <!-- 
+                                                                    <span class="stat_value badge bg-secondary d-inline-block">1</span> 
+                                                                -->
+                                                                <span class="d-block mt-2">Attendances</span>
                                                             </div>
-                                                        </div>
+                                                        </a>
                                                     </div>
                                                 </div>
 

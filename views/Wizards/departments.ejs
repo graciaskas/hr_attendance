@@ -1,0 +1,59 @@
+<div class="modal fade" id="department_report_list">
+    <div class="modal-dialog">
+        <div class="modal-content  text-secondary">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fa fa-key badge bg-secondary"></i>
+                    Report departments
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+
+            <form action="/api/departments/?action=report" method="post">
+                <div class="modal-body">
+
+                    <div class="row">
+
+                        <div class="col-12">
+                            <div class="input w-100 mt-1">
+                                <label for="state">Filter department criteria</label>
+                                <div class="border rounded input-group mt-1">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-list"></i>
+                                    </div>
+                                    <select name="active" id="state" class="w-100">
+                                        <option value="1">Active</option>
+                                        <option value="0">Archived</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn bg-primary text-white" type="submit">
+                        <i class="fa fa-file-pdf"></i> Print Pdf
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    document.querySelector("input[type=checkbox]")
+        .addEventListener("change", e => {
+            console.log(e.target.checked, e.target);
+            if(e.target.checked) {
+                document.querySelector(".groupby_input").classList.remove('d-none');
+            } else {
+                document.querySelector(".groupby_input").classList.add('d-none');
+            }
+        })
+</script>

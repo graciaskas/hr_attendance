@@ -191,6 +191,10 @@ input[type=color]::-webkit-color-swatch {
   border-radius: 5% !important
 }
 
+label {
+  font-size: .87rem !important;
+}
+
 textarea {
   resize: none;
   font-family: "Raleway"
@@ -1640,7 +1644,11 @@ textarea {
 }
 
 .modal-header {
-  padding: .7rem 1rem
+  padding: .7rem 1rem;
+}
+
+.modal-content {
+  border-radius: 0 !important;
 }
 
 .table {
@@ -1650,6 +1658,9 @@ textarea {
 .table thead,
 .table thead tr th {
   border-bottom: none 2px solid #efefef !important
+}
+.table td {
+  font-size: .91rem !important;
 }
 
 .table .table-body-striped tr {
@@ -2033,7 +2044,13 @@ body {
 }
 
 .App main .main-content .user-card {
-  border: 1px solid #dee2e6
+  border: 1px solid #dee2e6;
+  position: relative;
+}
+.App main .main-content .user-card .employee_status{
+  top: 5px;
+  right: 5px;
+  font-size: 10px;
 }
 .App main .main-content .user-card h6{
   font-size: .83rem;

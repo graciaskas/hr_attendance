@@ -34,19 +34,17 @@
 
         <li class='navigation-dropdown'>
             <a data-bs-toggle="collapse" href="#multiCollapseExample1" class="collapse-item d-block w-100">
-                <i class="fas fa-list"></i>
+                <i class="fas fa-clipboard-list"></i>
                 <span class="text-decoration-none t-white">Attendances</span>
             </a>
-            <div class="collapse multi-collapse bg-secondary-dark-2 rounded" id="multiCollapseExample1">
-                <% if ( user.role=='admin' || user.role=='user' ) { %>
-                    <a href="/attendances" class='d-flex align-items-center'>
-                        <i class="fas fa-user"></i>
-                        <span class="text-decoration-none t-white">Attendances</span>
-                        <i class='badge rounded-pill bg-primary float-right'>
-                            09
-                        </i>
-                    </a>
-                <% } %>
+            <div class="collapse multi-collapse  rounded" id="multiCollapseExample1">
+                <a href="/attendances" class='d-flex align-items-center'>
+                    <i class="fas fa-user"></i>
+                    <span class="text-decoration-none t-white">Attendances</span>
+                    <i class='badge rounded-pill bg-primary float-right'>
+                        09
+                    </i>
+                </a>
                 
                 <a href="/attendances/kiosque" class='d-flex align-items-center'>
                     <i class="fas fa-fingerprint"></i>
@@ -63,11 +61,16 @@
                     <i class="fas fa-cogs "></i>
                     <span class="text-decoration-none t-white">Settings</span>
                 </a>
+               
                 <div class="collapse multi-collapse" id="settings">
+                    <a href="/company" class="d-flex align-items-center">
+                        <i class="fas fa-building"></i>
+                        <span class="text-decoration-none">Company</span>
+                    </a>
                     <a href="/users" class="d-flex align-items-center">
                         <i class="fas fa-user-friends"></i>
                         <span class="text-decoration-none">Users</span>
-                        <i class='badge rounded-pill bg-primary float-right'>05</i>
+                        <i class='badge rounded-pill bg-success float-right'>05</i>
                     </a>
                 </div>
             </li>

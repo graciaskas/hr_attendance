@@ -6,36 +6,96 @@
     <main class="main">
 
         <%- include('../Includes/header.ejs') %>
+        <%- include("../Wizards/employees"); %>
 
         <div class="main-content">
             <div class="container">
                 <div class="row">
 
-                    <%- barCreate({ appName, appRootLocation,create:true }) %>
+                  
+
+                    <% 
+                        var reports= [{ 
+                            name: 'Employee list' , 
+                            modal: 'employee_report_list' , 
+                            app:'Employees' 
+                        }];
+                    %>
                     
+                    <%- barCreate({ appName, appRootLocation, create: true, reports }) %>
+
                     <div class="col-12">
-                        <div class="bg-white p-3 shadow-default rounded">
-                            <div class="row">
-                               <% for( let employee of data) { %>
-                                    <a href='/employees/view/<%= employee.id %>' class="col-lg-4 col-md-6 col-12 text-secondary mb-2">
-                                        <div class='bg-white  p-3 d-flex user-card rounded justify-content-between'>
-                                            <div>
-                                                <h6><%= employee.name %></h6>
-                                                <small>45, Uvira</small>
-                                                <small><%= employee.email %></small>
-                                                <small> 
+                        <% if (!req.query.view || req.query.view == 'th') { %>
+                            <div class="bg-white p-3 shadow-default rounded">
+                                <div class="row">
+                                <% for( let employee of data) { %>
+                                        <a href='/employees/view/<%= employee.id %>' class="col-lg-4 col-md-6 col-12 text-secondary mb-2">
+                                            <div class='bg-white  p-3 d-flex user-card rounded justify-content-between '>
+                                                <div>
+                                                    <h6><%= employee.name %></h6>
+                                                    <small>45, Uvira</small>
+                                                    <small><%= employee.email %></small>
+                                                    <small> 
+                                                        <i class="fa fa-mobile"></i>
+                                                        <%= employee.mobile_phone %>
+                                                    </small>
+                                                </div>
+                                                <div>
+                                                    <img src="/src/image_add.png" alt="fd" class='img-fluid rounded' />
+                                                </div>
+                                                <div class="employee_status position-absolute">
+                                                    <i class="fa fa-circle text-success"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% } else { %>
+                            <div class="bg-white p-3 shadow-default rounded">
+                                <table class="table">
+                                    <thead>
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" name="" id=""></th>
+                                                <th class="border-right">#</th>
+                                                <th>RNO</th>
+                                                <th>Names</th>
+                                                <th>Department</th>
+                                                <th>Position</th>
+                                                
+                                                <th>Phone</th>
+                                            </tr>
+                                        </thead>
+                                    </thead>
+                                    <tbody class="table-body-striped">
+                                        <% for( let employee of data) { %>
+                                            <tr href='/employees/view/<%= employee.id %>'>
+                                                <td><input type="checkbox" name="" id=""></td>
+                                                <td><%= employee.id %></td>
+                                                <td></td>
+                                                <td>
+                                                    <%= employee.name %>
+                                                </td>
+                                                <td></td>
+                                                <td>
+                                                    <%= employee.job_title %>
+                                                </td>
+                                                <td>
                                                     <i class="fa fa-mobile"></i>
                                                     <%= employee.mobile_phone %>
-                                                </small>
-                                            </div>
-                                            <div>
-                                                <img src="/src/image_add.png" alt="fd" class='img-fluid rounded' />
-                                            </div>
-                                        </div>
-                                    </a>
-                                <% } %>
+                                                </td>
+                                                    
+                                                <td>
+                                                    <i class="fa fa-circle text-success"></i>
+                                                </td>
+                                               
+                                            </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
                             </div>
-                        </div>
+                        <% } %>
                     </div>
 
                 </div>

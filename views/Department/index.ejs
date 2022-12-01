@@ -6,45 +6,56 @@
             <main class="main">
 
                 <%- include('../Includes/header.ejs') %>
+                <%- include("../Wizards/departments"); %>
 
                 <div class="main-content">
                     <div class="container">
                         <div class="row">
 
-                            <%- barCreate({ appName, appRootLocation, create:true }) %>
+                            <% 
+                                var reports=[{ 
+                                    name: 'Departments list', 
+                                    modal: 'department_report_list', 
+                                    app: 'Departments' 
+                                }];
+
+                                if(user.role=='employee' ) { reports[0].name='My attendances' } 
+                            %>
+                            
+                            <%- barCreate({ appName, appRootLocation, create: true, reports }) %>
 
 
-                                <div class="col-12">
-                                    <div class="bg-white p-3 shadow-default rounded">
-                                        <table class="table">
-                                            <tr>
-                                                <th><input type="checkbox" name="" id=""></th>
-                                                <th>#</th>
-                                                <th>Code</th>
-                                                <th>Department name</th>
-                                                <th>Manager</th>
-                                                <th>Employees</th>
-                                                <th>Status</th>
-                                               
-                                            </tr>
-                                            <tbody class="table-body-striped">
-                                                <% for( let department of data) { %>
-                                                    <tr onclick="window.location.href='/departments/view/<%= department.dep_id %>'">
-                                                        <td><input type="checkbox"></td>
-                                                        <td><%= department.dep_id%></td>
-                                                        <td><%= department.dep_code %></td>
-                                                        <td><%= department.dep_name %></td>
-                                                     
-                                                        <td><%= department.emp_name %></td>
-                                                        <td><%= department.dep_emp %></td>
-                                                        <th><span class="badge bg-primary rounded-pill">Closed</span></th>
-                                                       
-                                                    </tr>
-                                                <% } %>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                            <div class="col-12">
+                                <div class="bg-white p-3 shadow-default rounded">
+                                    <table class="table">
+                                        <tr>
+                                            <th><input type="checkbox" name="" id=""></th>
+                                            <th>#</th>
+                                            <th>Code</th>
+                                            <th>Department name</th>
+                                            <th>Manager</th>
+                                            <th>Employees</th>
+                                            <th>Status</th>
+                                            
+                                        </tr>
+                                        <tbody class="table-body-striped">
+                                            <% for( let department of data) { %>
+                                                <tr onclick="window.location.href='/departments/view/<%= department.dep_id %>'">
+                                                    <td><input type="checkbox"></td>
+                                                    <td><%= department.dep_id%></td>
+                                                    <td><%= department.dep_code %></td>
+                                                    <td><%= department.dep_name %></td>
+                                                    
+                                                    <td><%= department.emp_name %></td>
+                                                    <td><%= department.dep_emp %></td>
+                                                    <th><span class="badge bg-primary rounded-pill">Closed</span></th>
+                                                    
+                                                </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
                                 </div>
+                            </div>
 
                         </div>
                     </div>

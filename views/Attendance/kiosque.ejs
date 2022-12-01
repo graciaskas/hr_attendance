@@ -4,14 +4,14 @@
     <body class="d-lg-flex align-items-center bg-gray">
     
         <div class="container mt-4" style="width: 40%;">
-            <form class="bg-white shadow-default rounded" action="/api/attendances" method="post">
-                <div class="border-bottom p-3">
+            <form class="" action="/api/attendances" method="post">
+                <div class="border-bottom p-3 bg-white shadow-default rounded">
                     <a href="/" class="bg-primary text-white p-2 px-3 rounded-pill">
                         <i class="fa fa-arrow-left"></i> Back home
                     </a>
                 </div>
                 
-                <div class="pt-4 text-center p-3">
+                <div class="text-center p-5 bg-white shadow-default rounded mt-3">
                     <input type="hidden" name="employee_id" value="<%= user.employee_id %>">
                     <h2 class="text-primary"><%= user.name %></h2>
                     
@@ -32,8 +32,8 @@
                         <input type="datetime" name="checkout" class="d-none" value="">
                         <input type="datetime" name="checkin" class="d-none" value="<%= checkin%>">
                         <h5>You are welcome back!</h5>
-                        <div class="alert alert-info mt-4 mb-2 rounded-pill">
-                            Your current worked time is <%= t.days %> Day(s) <%= t.hours %> Hr(s) <%= t.min %> Min(s) <%= t.seconds %> Sec(s).
+                        <div class="alert alert-info mt-5 mb-2 rounded-pill">
+                            Your current worked time is <%= t.hours %> Hr(s) <%= t.min %> Min(s) <%= t.seconds %> Sec(s).
                         </div>
                         <button
                             class="bg-danger text-white mt-4 rounded px-4 CheckOutButtom mb-3 d-flex align-items-center text-center justify-content-center rounded-pill w-100"

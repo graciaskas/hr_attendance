@@ -7,27 +7,33 @@
 
                 <%- include('../Includes/header.ejs') %>
 
-                <%- include("../Reports/attendances"); %>
+                <%- include("../Wizards/attendances"); %>
 
-                <!-- 
-                    <% if(req.query.report) { %>
-                    
-                    <% } %> 
-                -->
-
-                
-
+              
                     <div class="main-content">
                         <div class="container">
                             <div class="row">
 
-                                <%- 
-                                    barCreate({ 
-                                        appName, 
-                                        appRootLocation,
-                                        create: true 
-                                    }) 
-                                %>
+                            <%  
+                                var reports = [{
+                                    name: 'Attendances list',
+                                    modal: 'attendance_report_list',
+                                    app:'attendances'
+                                }];
+
+                                if(user.role == 'employee') {
+                                    reports[0].name = 'My attendances'
+                                }
+                            %>
+
+                            <%- 
+                                barCreate({ 
+                                    appName, 
+                                    appRootLocation,
+                                    create: true,
+                                    reports 
+                                }) 
+                            %>
 
                                 
 

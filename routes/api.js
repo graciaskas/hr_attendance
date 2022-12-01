@@ -11,8 +11,7 @@ const { requireAuth, forwardAuth } = require("../middlewares/auth.middleware");
 const router = express.Router();
 
 // Login route
-router.route("/login")
-    .post(controller.postLogin);
+router.route("/login").post(controller.postLogin);
 
     
 //Reset route
@@ -25,7 +24,7 @@ router.route("/reset")
 //Employee route
 router.route("/employees")
     .get(requireAuth,employee.apiGet)
-    .post(requireAuth,employee.apiPost, employee.apiPut)
+    .post(requireAuth,employee.apiPost, employee.apiPut, employee.apiReport)
     .post(requireAuth,employee.apiPut)
     .delete((req, res) => {
         res.json({ ...req.body });      

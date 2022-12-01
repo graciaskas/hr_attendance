@@ -120,11 +120,26 @@ exports.postResetPassword = (req, res, next) => {
 // 1.3 Dashboard
 exports.getDashboard = async (req, res, next) => {
   try {
+    
     let sql = `
-      SELECT hr_attendances.id, hr_attendances.checkin, hr_attendances.checkout, hr_attendances.worked_hours, hr_attendances.state, (SELECT name from hr_employee WHERE hr_attendances.employee_id = hr_employee.id) as emp_name, 
-      (SELECT name from hr_employee WHERE hr_attendances.approved_by = hr_employee.id) as emp_approved FROM hr_attendances join hr_employee on hr_attendances.employee_id = hr_employee.id
+      SELECT 
+        hr_attendances.id, hr_attendances.checkin, hr_attendances.checkout, 
+        hr_attendances.worked_hours, hr_attendances.state,hr_attendances.employee_id,  
+        (SELECT name from hr_employee WHERE hr_attendances.employee_id = hr_employee.id) as emp_name, 
+        (SELECT name from hr_employee WHERE hr_attendances.approved_by = hr_employee.id) as emp_approved
+      FROM  
+        hr_attendances 
+      JOIN 
+        hr_employee 
+      ON 
+        hr_attendances.employee_id = hr_employee.id
     `;
-    let attendances = await  paginate(req, 'hr_attendances', sql);
+    let attendances = await paginate(req, 'hr_attendances', sql);
+
+    //If is the employee's dashboard
+    if (req.user.role == 'employee') {
+      attendances.data = attendances.data.filter(e => e.employee_id == req.user.employee_id);
+    }
 
     res.render('dashboard',{
       user: req.user,
@@ -132,6 +147,7 @@ exports.getDashboard = async (req, res, next) => {
       data: attendances.data
     });
   } catch (error) {
+    console.log(error);
     res.render("error", {
       code: 500,
       content: error.message || error

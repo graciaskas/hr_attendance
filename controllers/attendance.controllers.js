@@ -1,19 +1,39 @@
-// require('dotenv').config();
+const path = require("path");
+const fs = require("fs");
+const PDF = require("html-pdf");
+const ejs = require("ejs");
 
-const mysql = require('mysql');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+const { barCreate, paginate, queryDB, queryDBParams, fieldGet, datesInterval, toLocalDate, toIsoDateString, generatePDF } = require("../utils/utils");
 
-const { barCreate, paginate, queryDB, queryDBParams, fieldGet, datesInterval, toLocalDate, toIsoDateString } = require("../utils/utils");
 
 exports.index = async (req, res, next) => {
   try {
     let sql = `
-      SELECT hr_attendances.id, hr_attendances.checkin, hr_attendances.checkout, hr_attendances.worked_hours, hr_attendances.state, (SELECT name from hr_employee WHERE hr_attendances.employee_id = hr_employee.id) as emp_name, 
-      (SELECT name from hr_employee WHERE hr_attendances.approved_by = hr_employee.id) as emp_approved FROM hr_attendances join hr_employee on hr_attendances.employee_id = hr_employee.id
+      SELECT 
+        hr_attendances.id, hr_attendances.checkin, hr_attendances.checkout, 
+        hr_attendances.worked_hours, hr_attendances.state, hr_attendances.employee_id, 
+        (SELECT name from hr_employee WHERE hr_attendances.employee_id = hr_employee.id) as emp_name, 
+        (SELECT name from hr_employee WHERE hr_attendances.approved_by = hr_employee.id) as emp_approved
+      FROM 
+        hr_attendances 
+      JOIN 
+        hr_employee 
+      ON 
+        hr_attendances.employee_id = hr_employee.id
     `;
 
     let data = await paginate(req, 'hr_attendances', sql);
+
+    /** If requested for one employee's attendances */
+    let { eq } = req.query;
+    if (eq && !isNaN(eq)) {
+      data.data = data.data.filter(item => item.employee_id == eq); 
+    }
+
+    //If is the employee's dashboard
+    if (req.user.role == 'employee') {
+      data.data = data.data.filter(e => e.employee_id == req.user.employee_id);
+    }
     
     res.render("Attendance/index", {
       page_name: null,
@@ -97,9 +117,9 @@ exports.kiosque = async (req, res) => {
 
   try {
     //Get the lastest attendance from this user employee
-  let sql = 'SELECT * FROM hr_attendances WHERE employee_id = ? and state = "draft" order by id desc limit 1';
+  let sql = 'SELECT * FROM hr_attendances WHERE employee_id = ? order by id desc limit 1';
   let data = await queryDBParams(sql, req.user.employee_id);
-
+    
   let canCheckOut = false;
   let hasCheckOut = false;
 
@@ -107,32 +127,34 @@ exports.kiosque = async (req, res) => {
 
   //If has attendee
   if (data.length > 0) {
-    
-    canCheckOut = true; //Can checkout;
+    //Desctructure data
+    let { checkin, checkout, id, state } = data[ 0 ];
     let currentTime = new Date();  //Current date time;
-    
-    let { checkin, id } = data[ 0 ];
-    
-   //Convert checkin date to corresponding date format;
+
+    //Convert checkin date to corresponding date format;
     checkin = toIsoDateString(checkin);
 
     //Interval between checkin and current date time;
     t = datesInterval(checkin, currentTime.toISOString());
     t.id = id;
-
-    //If the user or employee has checked out;
-    if (data[ 0 ].checkout != null) {
+    
+    //If has not checked out yet
+    if (state == 'draft' && checkout == null) {
+      canCheckOut = true; //Can checkout;
+    
+    //If has not checked out
+    } else  if (checkout != null) {
       hasCheckOut = true;
 
       /*** 
        * If it is not the same day 
        * 
       */
-      let checkout = new Date(toIsoDateString(data[ 0 ].checkout));
-      //Checkout to current timed seconds difference
+      checkout = new Date(toIsoDateString(checkout));
+      //Checkout to current timed seconds difference;
       let checkoutToNowDiffSec = Math.floor((currentTime - checkout) / 1000);
       //Get days form checkoutToNowDiffSec;
-      let days = Math.floor(checkoutToNowDiffSec / (60 * 60 * 24));
+      let days = Math.round(checkoutToNowDiffSec / (60 * 60 * 24));
 
       if (days != 0) {
         canCheckOut = false;
@@ -156,15 +178,13 @@ exports.kiosque = async (req, res) => {
   } else {
     canCheckOut = false;
     hasCheckOut = false;
-    return res.json(req.user);
-    //return res.redirect("/attendances");
   }
 
     return res.render('Attendance/kiosque', {
       user: req.user,
       canCheckOut,
       t,
-      checkin: data.length && data[ 0 ].checkin || null,
+      checkin: data.length ? data[ 0 ].checkin : null,
       hasCheckOut
     });
 
@@ -266,6 +286,8 @@ exports.apiPut = (req, res, next) => {
 
 exports.apiReport = async (req, res, next) => {
   try {
+
+    //If query action is not a report action next the middleware; 
     let { action } = req.query;
     if (action) {
       if (action != 'report') {
@@ -274,15 +296,75 @@ exports.apiReport = async (req, res, next) => {
       }
     }
 
+    /** Check required fields **/
     let { checkin, checkout, state } = req.body;
 
-    checkin = toLocalDate(checkin);
-    checkout = toLocalDate(checkout);
+    if ((checkin.value == "" || checkout.value == "")) {
+      return res.redirect('/attendances/?error=required fields');
+    } 
 
-    let sql = 'SELECT * FROM hr_attendances';
+
+    //SQL QUERY
+    const sql = `
+      SELECT 
+        hr_attendances.id, hr_attendances.checkin, hr_attendances.checkout, hr_attendances.worked_hours, hr_attendances.state, hr_attendances.employee_id, 
+        (SELECT name from hr_employee WHERE hr_attendances.employee_id = hr_employee.id) as emp_name, 
+        (SELECT name from hr_employee WHERE hr_attendances.approved_by = hr_employee.id) as emp_approved
+      FROM
+        hr_attendances
+      JOIN hr_employee ON hr_attendances.employee_id = hr_employee.id`;
+    
     let data = await queryDB(sql);
 
-    res.json(data)
+    /** If user is an employee and has employee role only */
+    if (req.user.role == 'employee') {
+      data = data.filter(elm => elm.employee_id == req.user.employee_id);
+    }
+  
+    /** Try to get the records responding to the request criteria **/
+    const getResults = async () => {
+      
+      let results = [];
+      const req_checkin = new Date(checkin);
+      const req_checkout = new Date(checkout);
+
+      data.filter(record => {
+        //Database checkin <=> checkout converted to date instances
+        const db_checkin = new Date(toIsoDateString(record.checkin));
+        let db_checkout = null;
+
+        if (record.checkout != null) {
+          db_checkout = new Date(toIsoDateString(record.checkout));
+        }
+        
+        //if record's checkin date includes the user's checkin interval
+        if (db_checkin >= req_checkin && record.state == state ) {
+          //The if record checkout is less than user's checkout request
+          if (db_checkout <= req_checkout) { 
+            results.push(record);
+          } else if (db_checkout == null) {
+            results.push(record);
+          }
+        }
+
+      });
+
+      return results;
+    };
+
+ 
+    let results = await getResults();
+
+    let meta = {
+      ...req.body,
+      user: await fieldGet(req.user.id, 'name', 'hr_users'),
+      time: new Date().toLocaleString()
+    };
+
+    //Generate PDF
+    generatePDF('attendances_list.ejs', { data: results, meta }, 'Attendances list', res);
+    
+
   } catch (error) {
     console.log(error);
     res.render("error", {

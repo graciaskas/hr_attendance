@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const MySQL = require('../database/mysql');
 
-const { barCreate, paginate, queryDB, queryDBParams } = require("../utils/utils");
+const { barCreate, paginate, queryDB, queryDBParams, fieldGet, generatePDF } = require("../utils/utils");
 
 
 exports.index = async (req, res, next) => {
@@ -17,7 +17,8 @@ exports.index = async (req, res, next) => {
       appRootLocation: '/employees',
       barCreate,
       data,
-      user:req.user
+      user: req.user,
+      req
     });
   } catch (error) {
     res.render("error", {
@@ -137,13 +138,57 @@ exports.apiPost = async (req, res,next) => {
   }
 }
 
-exports.apiPut = async (req, res) => {
+exports.apiPut = async (req, res, next) => {
   try {  
+    //If an action is passed as on query paramater
+    //Go to next controller or middleware;
+    let { action } = req.query;
+    if (action == 'report') {
+      next();
+      return;
+    }
     let sql = `UPDATE hr_employee SET ? WHERE id = ${req.body.id}`;
     //execute query
     await queryDBParams(sql, req.body);
     res.redirect('/employees');
-  }catch(error) {
+  } catch (error) {
+    console.log(error);
+    res.render("error", {
+      code: 500,
+      content: error.message || error
+    })
+  }
+}
+
+exports.apiReport = async (req, res) => {
+  try {
+      //SQL QUERY
+    const sql = `
+      SELECT 
+        hr_employee.id, hr_employee.name, hr_employee.roll_no, 
+        hr_employee.job_title, hr_employee.mobile_phone,hr_employee.email,
+        (SELECT name from hr_departments WHERE hr_employee.department_id = hr_departments.id) as dep_name 
+      FROM
+        hr_employee
+      JOIN 
+        hr_departments 
+      ON 
+        hr_employee.department_id = hr_departments.id
+      ORDER BY hr_employee.name ASC
+    `;
+    
+    let data = await queryDB(sql);
+    let meta = {
+      ...req.body,
+      user: await fieldGet(req.user.id, 'name', 'hr_users'),
+      time: new Date().toLocaleString()
+    };
+
+    //Generate PDF
+    generatePDF('employees_list.ejs', { data, meta }, 'Employee list', res);
+
+  } catch (error) {
+    console.log(error);
     res.render("error", {
       code: 500,
       content: error.message || error
