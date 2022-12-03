@@ -46,10 +46,12 @@
                     </i>
                 </a>
                 
-                <a href="/attendances/kiosque" class='d-flex align-items-center'>
-                    <i class="fas fa-fingerprint"></i>
-                    <span class="text-decoration-none t-white">Kiosk mode</span>
-                </a>
+                <% if ( user.employee_id != '' || user.employee_id != null ) { %>
+                    <a href="/attendances/kiosque" class='d-flex align-items-center'>
+                        <i class="fas fa-fingerprint"></i>
+                        <span class="text-decoration-none t-white">Kiosk mode</span>
+                    </a>
+                <% } %>
                
             </div>
         </li>

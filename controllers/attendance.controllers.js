@@ -118,7 +118,16 @@ exports.update = async (req, res) => {
 exports.kiosque = async (req, res) => {
 
   try {
-    //Get the lastest attendance from this user employee
+
+  //if is not an employee
+    if (req.user.employee_id == "" || req.user.employee_id == null) {
+      return res.render("error", {
+        code: 401,
+        content: "You are not allowed to access this resource ! \n Only employee are allowed !"
+      });
+    }
+
+  //Get the lastest attendance from this user employee
   let sql = 'SELECT * FROM hr_attendances WHERE employee_id = ? order by id desc limit 1';
   let data = await queryDBParams(sql, req.user.employee_id);
     
@@ -194,8 +203,9 @@ exports.kiosque = async (req, res) => {
 
 
   } catch (error) {
+    console.log(error);
     res.render('error', {
-      code: 5000,
+      code: 500,
       content: error.message || error
     });
   }
