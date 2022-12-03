@@ -11,7 +11,7 @@
 
         <div class="main-content">
         
-            <div class="container">
+            <div class="container-lg">
                 <div class="row">
                     <div class="col-12">
                         <div class="p-3 bg-white shadow-default d-flex align-items-center rounded mb-3">
@@ -21,7 +21,7 @@
 
                 <% if ( user.role=='admin' || user.role=='user' ) { %>
 
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                         <div class="p-3 bg-white  rounded shadow-default mb-2">
                             <div class="border-bottom">
                                 <h5 class="card-title">Total Employees</h5>
@@ -38,8 +38,8 @@
 
                     
 
-                    <div class="col-lg-4">
-                        <div class="p-3 bg-white rounded shadow-default mb-2">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <div class="p-3 bg-white rounded shadow-default mb-3">
                             <div class="border-bottom">
                                 <h5 class="card-title">Current Attendances</h5>
                             </div>
@@ -79,17 +79,17 @@
                         <% } else { %>
                             <h4 class="mt-3">Your lastest taken attendances</h4>
                         <% } %>
-                        <div class="p-3 mt-2 bg-white rounded shadow-default mb-3">
+                        <div class="p-3 mt-2 bg-white rounded shadow-default mb-3 table-responsive">
                             
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th><input type="checkbox" name="" id="" /></th>
                                         <th class="border-right">#</th>
-                                        <th>Employee</th>
+                                        <th scope="col">Employee</th>
                                         <th>Checkin</th>
                                         <th>CheckOut</th>
-                                        <th>Worked hours</th>
+                                        <th>Work hours</th>
                                         <th>Approved</th>
                                         <th class="text-right">State</th>
                                     </tr>
@@ -107,9 +107,9 @@
                                             <td>
                                                 <%= attendance.checkout %>
                                             </td>
-                                            <td><%= attendance.worked_hours %></td>
+                                            <td><%= millisecTotime(attendance.worked_hours) %></td>
                                             <td><%= attendance.emp_approved %></td>
-                                            <td>
+                                            <td class="text-center">
                                                 <span class="bg-primary rounded-pill px-2 text-white">
                                                     <%= attendance.state %>
                                                 </span>

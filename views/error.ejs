@@ -1,15 +1,30 @@
 <%- include('./Includes/begin.ejs') %>
     <!-- Error Page -->
-    <body class="d-lg-flex align-items-center bg-secondary text-white">
+    <body class="d-block d-lg-flex align-items-center bg-white">
 
-        <div class="container" style="width: 40%;">
+        <div class="container container-error" >
             <div class="pt-5 text-center">
-                <div class="pt-5 display-1 fs-1" id="top">Oops!</div>
-                <h1 class="text-primary" style="font-size: 85px;"><%= code %></h1>
-                <p><%= content %></p>
+                <div class="pt-5" id="top">
+                    <h1 class="text-danger" style="font-size: 85px;"><%= code %> </h1>
+                    <span class="display-1 fs-1 text-danger" style="margin-left: 1rem;">
+                        <% 
+                            var message = null;
+                            if(code === 404) message = 'Page doesn\'t exist !'
+                            if(code === 403) message = 'Forbiden request !'
+                            if(code === 401) message = 'Unauthorized request !'
+                            if(code === 400) message = 'Bad request !'
+                            if(code === 500) message = 'Internal Server Error !'
+                        %>
+                        <%= message %>
+                    </span>
+                </div>
+                <br>
+                <code class="rounded-pill alert text-secondary">
+                    <%= content %>
+                </code>
                 
-
-                <a class="btn bg-primary btn-lg mt-4 rounded-pill" href = '/'>
+                <br><br><br>
+                <a class="bg-danger  text-white text-raleway  py-3 px-4  mt-4 rounded-pill" href = '/' role="button">
                    Back home
                 </a>
             </div>

@@ -1,4 +1,5 @@
 <html lang="en-US">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,17 +25,18 @@
             color: #212529;
             vertical-align: top;
             border-left: 1px solid #dee2e6;
-             border-top: 1px solid #dee2e6;
+            border-top: 1px solid #dee2e6;
             caption-side: bottom;
             border-collapse: collapse;
         }
 
-        table > tbody {
+        table>tbody {
             vertical-align: inherit;
         }
 
 
-        table td,  table th {
+        table td,
+        table th {
             padding: 5px 8px;
             text-align: left;
         }
@@ -51,7 +53,7 @@
             border-bottom: 1px solid #dee2e6;
         }
 
-        .grids > .grid {
+        .grids>.grid {
             display: inline-block;
             margin-right: 20px;
         }
@@ -59,40 +61,39 @@
         .d-block {
             display: block !important;
         }
+
         .badge {
             border-radius: 30px;
             padding: 1px 7px;
             color: white;
             font-weight: bold;
         }
+
         .bg-primary {
             background-color: #1da1f2;
         }
     </style>
 </head>
+
 <body>
     <header>
         <h3><span class="badge bg-primary">HR</span> Attendance</h3>
     </header>
     <main>
-        <h4>Report attendances list</h4>
+        <h4>Report departments list</h4>
 
         <div class="grids">
             <div class="grid">
-                <strong class="d-block">CheckIn:</strong>
-                <span><%=meta.checkin%></span>
-            </div>
-            <div class="grid">
-                <strong class="d-block">CheckOut:</strong>
-                <span><%=meta.checkout%></span>
-            </div>
-            <div class="grid">
                 <strong class="d-block">System User:</strong>
-                <span><%=meta.user%></span>
+                <span>
+                    <%=meta.user%>
+                </span>
             </div>
             <div class="grid">
                 <strong class="d-block">TimeStamp:</strong>
-                <span><%=meta.time%></span>
+                <span>
+                    <%=meta.time%>
+                </span>
             </div>
         </div>
 
@@ -102,12 +103,10 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Employee</th>
-                    <th>CheckIn</th>
-                    <th>CheckOut</th>
-                    <th>Work hours</th>
-                    <th>Approved by</th>
-                    <th>State</th>
+                    <th>Code</th>
+                    <th>Department name</th>
+                    <th>Manager</th>
+                    <th>Employees</th>
                 </tr>
             </thead>
 
@@ -115,15 +114,24 @@
             <tbody>
                 <% for( let item of data ) { %>
                     <tr>
-                        <td><%=item.id%></td>
-                        <td><%=item.emp_name%></td>
-                        <td><%=item.checkin%></td>
-                        <td><%=item.checkout%></td>
-                        <td><%= millisecTotime(item.worked_hours) %> </td>
-                        <td><%=item.approved_by%></td>
-                        <td><span class="badge bg-primary"><%=item.state%></span></td>
+                        <td>
+                            <%=item.dep_id%>
+                        </td>
+                        <td>
+                            <%=item.dep_code%>
+                        </td>
+                        <td>
+                            <%=item.dep_name%>
+                        </td>
+                        <td>
+                            <%=item.dep_manager%>
+                        </td>
+                      
+                        <td><span class="badge bg-primary">
+                                <%=item.dep_emp%>
+                            </span></td>
                     </tr>
-                <% } %>
+                    <% } %>
             </tbody>
         </table>
 
@@ -131,4 +139,5 @@
         <strong style="float: right;">Manager's signature</strong>
     </main>
 </body>
+
 </html>

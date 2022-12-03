@@ -10,17 +10,29 @@ const { barCreate, paginate, queryDB, queryDBParams, fieldGet, generatePDF } = r
 
 exports.index = async (req, res, next) => {
   try {
-    let data = await queryDB('select * from hr_employee');
+
+    let sql = `
+      SELECT 
+        hr_employee.id,hr_employee.name,hr_employee.mobile_phone,hr_employee.job_title,
+        hr_employee.email, 
+        (SELECT name FROM hr_departments WHERE hr_employee.department_id = hr_departments.id) AS dep_name 
+      FROM hr_employee JOIN hr_departments ON hr_employee.department_id = hr_departments.id`;
+    
+    let { data, meta } = await paginate(req, 'hr_employee', sql);
+    
     res.render("Employee/index", {
       page_name: null,
       appName: 'Employees',
       appRootLocation: '/employees',
       barCreate,
       data,
+      meta,
       user: req.user,
       req
     });
+
   } catch (error) {
+    console.log(error);
     res.render("error", {
       code: 500,
       content: error.message || error
@@ -51,9 +63,10 @@ exports.view = async (req, res, next) => {
 
     //Check if user request his employee profile if not return authorized
     if (id != req.user.employee_id && req.user.role == 'employee'){
-      return res.redirect("/unauthorized");
+      return res.redirect(401,"/unauthorized");
     }
 
+    
     let data = await queryDB('select * from hr_employee where id = ' + id);
       
     res.render("Employee/view", {

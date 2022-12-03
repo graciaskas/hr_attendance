@@ -14,6 +14,8 @@ const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: DOMAIN });
 exports.postLogin = (req, res, next) => {
 
   try {
+
+
     const { email, password } = req.body;
     
     if (!email || !password) {

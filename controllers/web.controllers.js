@@ -6,7 +6,7 @@ const { DOMAIN, DB_NAME }  = process.env;
 const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: DOMAIN });
 
 const MySQL = require('../database/mysql');
-const { paginate, queryDBParams } = require('../utils/utils');
+const { paginate, queryDBParams,millisecTotime } = require('../utils/utils');
 
 // Students limit per section
 const SECTION_LIMIT = 20;
@@ -144,7 +144,8 @@ exports.getDashboard = async (req, res, next) => {
     res.render('dashboard',{
       user: req.user,
       page_name: 'overview',
-      data: attendances.data
+      data: attendances.data,
+      millisecTotime
     });
   } catch (error) {
     console.log(error);
@@ -180,8 +181,8 @@ exports.getResetPassword = (req, res) => {
 };
 
 exports.getError = (req, res, next) => {
-  res.render('error', {
-    code: 403,
+  res.status(401).render('error', {
+    code: 401,
     content: `Sorry, you are not authorized to access that resource! Please contact the System Adminstrator to help you achieve your goal.`
   });
 };

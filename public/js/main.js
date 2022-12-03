@@ -154,7 +154,7 @@ class HRAttendance {
       checkinInput.value = checkIn.toLocaleString();
       
       alert.classList.remove("d-none");
-      alert.innerText = `Thank you ! You have Checked In At ${new Date().toLocaleString()}`;
+      alert.innerText = `You have Checked In At ${new Date().toLocaleString()} | Please wait !`;
 
       try {
         setTimeout(() => {
@@ -185,7 +185,7 @@ class HRAttendance {
       checkOutInput.value = checkOut.toLocaleString();
       
       alert.classList.remove("d-none");
-      alert.innerText = `Good Bye ! You have Checked Out At ${checkOut.toLocaleString()}`;
+      alert.innerText = `Good Bye ! You have Checked Out At ${checkOut.toLocaleString()}.\n Please wiat !`;
 
       try {
         form.action = "/api/attendances/?action=update"
@@ -200,7 +200,6 @@ class HRAttendance {
     })
 
   }
-
 }
 
 //Document is ready

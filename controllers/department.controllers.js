@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-const { barCreate, queryDB, queryDBParams, paginate } = require("../utils/utils");
+const { barCreate, queryDB, queryDBParams, paginate, fieldGet, generatePDF } = require("../utils/utils");
 
 
 exports.index = async (req, res, next) => {
@@ -17,17 +17,18 @@ exports.index = async (req, res, next) => {
         hr_employee.name AS emp_name,
         (SELECT COUNT(*) FROM hr_employee WHERE department_id = dep_id) AS dep_emp
       FROM hr_departments 
-      JOIN hr_employee ON hr_departments.manager_id = hr_employee.id;
+      JOIN hr_employee ON hr_departments.manager_id = hr_employee.id
     `;
 
-    let data = await queryDB(sql);
-    console.log(data);
+    let { data, meta } = await paginate(req,'hr_departments',sql);
+
     res.render("Department/index", {
       page_name: null,
       appName: 'Departments',
       appRootLocation: '/departments',
       barCreate,
       data,
+      meta,
       user:req.user
     });
   } catch (error) {
@@ -116,9 +117,15 @@ exports.apiGet = async (req, res) => {
   }
 } 
 
-exports.apiPost = async (req, res) => {
-  console.log(req.body);
+exports.apiPost = async (req, res, next) => {
   try {
+    //If an action is passed as on query paramater
+    //Go to next controller or middleware;
+    let { action } = req.query;
+    if (action) {
+      next();
+      return;
+    }
     let sql = `INSERT INTO hr_departments SET ? `;
     //execute query
     queryDBParams(sql, req.body)
@@ -131,7 +138,74 @@ exports.apiPost = async (req, res) => {
           page_name: 'Departments'
         });
       })
-  }catch(error) {
+  } catch (error) {
+    console.log(error);
+    res.render("error", {
+      code: 500,
+      content: error.message || error
+    })
+  }
+}
+exports.apiPut = async (req, res, next ) => {
+  try {
+    //If an action is passed as on query paramater
+    //Go to next controller or middleware;
+    let { action } = req.query;
+    if (action != 'update') {
+      next();
+      return;
+    }
+    res.json('odoo');
+  } catch (error) {
+    console.log(error);
+    res.render("error", {
+      code: 500,
+      content: error.message || error
+    })
+  }
+}
+
+
+exports.apiReport = async (req, res, next) => {
+  try {
+    //If an action is passed as on query paramater
+    //Go to next controller or middleware;
+    let { action } = req.query;
+    if (action != 'report') {
+      next();
+      return;
+    }
+
+    let sql = `
+      SELECT 
+        hr_departments.name AS dep_name, 
+        hr_departments.id AS dep_id , 
+        hr_departments.code AS dep_code,
+        hr_departments.active as dep_active, 
+        hr_employee.name AS dep_manager,
+        (SELECT COUNT(*) FROM hr_employee WHERE department_id = dep_id) AS dep_emp
+      FROM 
+        hr_departments 
+      JOIN 
+        hr_employee 
+      ON 
+        hr_departments.manager_id = hr_employee.id
+      ORDER BY dep_name ASC;
+    `;
+
+    let data = await queryDB(sql);
+
+    let meta = {
+      ...req.body,
+      user: await fieldGet(req.user.id, 'name', 'hr_users'),
+      time: new Date().toLocaleString()
+    };
+
+    //Generate PDF
+    generatePDF('departments_list.ejs', { data, meta }, 'Departments list', res);
+    
+  } catch (error) {
+    console.log(error);
     res.render("error", {
       code: 500,
       content: error.message || error

@@ -11,7 +11,7 @@
 
               
                     <div class="main-content">
-                        <div class="container">
+                        <div class="container-lg">
                             <div class="row">
 
                             <%  
@@ -31,6 +31,7 @@
                                     appName, 
                                     appRootLocation,
                                     create: true,
+                                    meta,
                                     reports 
                                 }) 
                             %>
@@ -38,15 +39,15 @@
                                 
 
                                 <div class="col-12">
-                                    <div class="bg-white p-3 shadow-default rounded">
+                                    <div class="bg-white p-3 shadow-default rounded table-responsive">
                                         <table class="table">
                                             <tr>
                                                 <th><input type="checkbox" name="" id=""></th>
                                                 <th>#</th>
-                                                <th>Employee name</th>
+                                                <th>Employee names</th>
                                                 <th>Checkin</th>
                                                 <th>CheckOut</th>
-                                                <th>Worked hours</th>
+                                                <th>Work hours</th>
                                                 <th>Approved by</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
@@ -68,7 +69,7 @@
                                                             <%= attendance.checkout %>
                                                         </td>
                                                         <td>
-                                                            <%= attendance.worked_hours %>
+                                                            <%= millisecTotime(attendance.worked_hours) %>
                                                         </td>
                                                         <td>
                                                             <%= attendance.emp_approved%>

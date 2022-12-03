@@ -9,7 +9,7 @@
                 <%- include("../Wizards/departments"); %>
 
                 <div class="main-content">
-                    <div class="container">
+                    <div class="container-lg">
                         <div class="row">
 
                             <% 
@@ -22,11 +22,18 @@
                                 if(user.role=='employee' ) { reports[0].name='My attendances' } 
                             %>
                             
-                            <%- barCreate({ appName, appRootLocation, create: true, reports }) %>
+                            <%- 
+                                barCreate({ 
+                                    appName,  
+                                    create: true,
+                                    meta, 
+                                    reports 
+                                }) 
+                            %>
 
 
                             <div class="col-12">
-                                <div class="bg-white p-3 shadow-default rounded">
+                                <div class="bg-white p-3 shadow-default rounded table-responsive">
                                     <table class="table">
                                         <tr>
                                             <th><input type="checkbox" name="" id=""></th>
@@ -35,8 +42,6 @@
                                             <th>Department name</th>
                                             <th>Manager</th>
                                             <th>Employees</th>
-                                            <th>Status</th>
-                                            
                                         </tr>
                                         <tbody class="table-body-striped">
                                             <% for( let department of data) { %>
@@ -45,10 +50,12 @@
                                                     <td><%= department.dep_id%></td>
                                                     <td><%= department.dep_code %></td>
                                                     <td><%= department.dep_name %></td>
-                                                    
                                                     <td><%= department.emp_name %></td>
-                                                    <td><%= department.dep_emp %></td>
-                                                    <th><span class="badge bg-primary rounded-pill">Closed</span></th>
+                                                    <td>
+                                                        <span class="badge bg-primary rounded-pill">
+                                                            <%= department.dep_emp %>
+                                                        </span>
+                                                    </td>
                                                     
                                                 </tr>
                                             <% } %>

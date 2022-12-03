@@ -17,7 +17,7 @@
                     <div class="row">
                         <div class="col-md-6 col-12">
                             <div class="input">
-                                <label for="checkin">CheckIn date</label>
+                                <label for="checkin">Check In date</label>
                                 <div class="border rounded input-group mt-1">
                                     <div class="input-group-text">
                                         <i class="fa fa-calendar"></i>
@@ -29,7 +29,7 @@
 
                         <div class="col-md-6 col-12">
                             <div class="input">
-                                <label for="checkout">CheckOut date</label>
+                                <label for="checkout">Check Out date</label>
                                 <div class="border rounded input-group mt-1">
                                     <div class="input-group-text">
                                         <i class="fa fa-calendar"></i>
@@ -54,22 +54,33 @@
                             </div>
                         </div>
 
+                        <% if(user.role !='employee' ) {%>
+                            <div class="col-12">
+                                <div class="mt-2 d-flex align-items-center">
+                                    <input type="checkbox" name="only_user" id="only_user">
+                                    <label class="w-100" for="only_user" style="margin-left: 10px;">
+                                        Print only my attendances.
+                                    </label>
+                                </div>
+                            </div>
+                        <% } %>
+
                     </div>
                                        
                 </div>
 
+               
                 <div class="modal-footer">
                     <button class="btn bg-primary text-white" type="submit">
                         <i class="fa fa-file-pdf"></i>
-                        Print Pdf
-                    </button>
-                    <button class="btn bg-secondary text-white" type="submit"> 
-                        <i class="fa fa-file-excel"></i>
-                        Print excel
+                        Print report
                     </button>
                 </div>
+               
+
             </form>
 
         </div>
     </div>
 </div>
+

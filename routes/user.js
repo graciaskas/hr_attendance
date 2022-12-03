@@ -11,11 +11,6 @@ const router = express.Router();
 router.get('/', [ requireAuth, adminRoute ], controller.index);
 router.get('/create', [ requireAuth, adminRoute ], controller.create);
 router.get('/view/:id', [ requireAuth, commonRoute ], controller.view);
-router.get('/update/:id', [ requireAuth, adminRoute ], controller.update);
-
-//All post requets
-router.post('/', [ requireAuth, adminRoute ], controller.postCreate);
-
 
 
 

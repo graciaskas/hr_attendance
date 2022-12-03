@@ -8,87 +8,87 @@
         <%- include('../Includes/header.ejs') %>
 
         <div class="main-content">
-            <div class="container">
+            <div class="container-lg">
                 <div class="row">
-
-                    <!-- <%- barCreate({ appName, appRootLocation }) %> -->
-
-                    <div class="col-12">
-                        <div class="bg-white  rounded shadow-default p-3">
-                            <h5 class='text-secondary  text-raleway'>
-                                <a href='/dashboard'><i class='fa fa-home'></i></a> /
-                                <a href='/departments'>Departments</a> /
-                                <%= data.name %>
-                            </h5>
-                        </div>
-                    </div>
-
 
                     <div class='container'>
 
-                        <form class="mt-3 p-3 bg-white rounded shadow-default user-form">
+                        <form class="user-form">
                             <div class="row">
 
                                 <div class="col-12">
-                                    <div class="d-flex user-stats">
-                                        <div class="stat-button d-flex align-item-center">
-                                            <i class="fa fa-users stat-icon"></i>
-                                            <div class="stat-info">
-                                                <span class="badge bg-secondary d-inline-block">1</span>
-                                                <span class="d-block">Followers</span>
-                                            </div>
-                                        </div>
-                                        <div class="stat-button d-flex align-item-center">
-                                            <i class="fa fa-heart stat-icon"></i>
-                                            <div class="stat-info">
-                                                <span class="badge bg-secondary d-inline-block">1</span>
-                                                <span class="d-block">Likes</span>
-                                            </div>
-                                        </div>
-                                        <div class="stat-button d-flex align-item-center px-2">
-                                            <i class="fa fa-blog stat-icon"></i>
-                                            <div class="stat-info">
-                                                <span class="stat_value badge bg-secondary d-inline-block">1</span>
-                                                <span class="d-block">Blog posts</span>
-                                            </div>
-                                        </div>
+                                    <div class="bg-white  rounded shadow-default p-3">
+                                        <h5 class='text-secondary  text-raleway'>
+                                            <a href='/dashboard'><i class='fa fa-home'></i></a> /
+                                            <a href='/departments'>Departments</a> /
+                                            <%= data.name %>
+                                        </h5>
                                     </div>
                                 </div>
 
-                                
-
-                                <div class="col-lg-12">
-                                    <div class="row">
-                                        <div class="col-md-6 col-12">
-                                            <div class="input-group border  w-100 mt-2 bg-white">
-                                                <span class="input-group-text" id="basic-addon1">
-                                                    <i class="fa fa-user"></i>
-                                                </span>
-                                                <input type="text" placeholder="Names" required
-                                                    value="<%= data.name %>" disabled />
-                                            </div>
+                                <div class="col-12">
+                                    <div class="mt-3 p-3 bg-white rounded shadow-default">
+                                        <div class="d-flex user-stats">
+                                            <a href="/employees/?dp=<%= data.id %>" class="stat-button d-flex align-item-center text-secondary">
+                                                <i class="fa fa-users stat-icon"></i>
+                                                <div class="stat-info">
+                                                    <span class="d-block mt-2">Employees</span>
+                                                </div>
+                                            </a>
                                         </div>
-
-                                        <div class="col-md-6 col-12">
-                                            <div class="input-group border w-100 mt-2 bg-white">
-                                                <span class="input-group-text" id="basic-addon1">
-                                                    <i class="fa fa-at"></i>
-                                                </span>
-                                                <input type="email" placeholder="Email" required
-                                                    value="<%= data.email %>" disabled />
+                                    
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6 col-12">
+                                                <div class="mt-1">
+                                                    <label for="name">Department name</label>                                         
+                                                    <div class="input-group border  w-100 mt-2 bg-white">
+                                                        <span class="input-group-text" id="basic-addon1">
+                                                            <i class="fa fa-building"></i>
+                                                        </span>
+                                                        <input type="text" placeholder="Names" required value="<%= data.name %>" disabled id="name"/>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="input-group border w-100 mt-3 bg-white">
-                                                <span class="input-group-text" id="basic-addon1">
-                                                    <i class="fa fa-th"></i>
-                                                </span>
-                                                <input type="text" placeholder="Title" required
-                                                    value="<%=data.job_title %>" disabled />
+                                        
+                                            <div class="col-md-6 col-sm-6 col-12">
+                                                <div class="mt-1">
+                                                    <label for="parent_dep">Parent department</label>
+                                                    <div class="input-group border w-100 mt-2 bg-white">
+                                                        <span class="input-group-text" id="basic-addon1">
+                                                            <i class="fa fa-building"></i>
+                                                        </span>
+                                                        <input type="email" placeholder="Email" required value="<%= data.email %>" disabled id="parent_dep"/>
+                                                    </div>
+                                                </div>
+                                               
                                             </div>
-                                        </div>
+                                        
+                                            <div class="col-md-6 col-sm-6 col-12">
+                                                <div class="mt-1">
+                                                    <label for="manager">Department's manager</label>
+                                                    <div class="input-group border w-100 mt-2 bg-white">
+                                                        <span class="input-group-text" id="basic-addon1">
+                                                            <i class="fa fa-user"></i>
+                                                        </span>
+                                                        <input type="text" placeholder="Department's manager" required value="<%=data.job_title %>" disabled id="manager"/>
+                                                    </div>
+                                                </div>
+                                            </div>
 
+                                            <div class="col-md-6 col-sm-6 col-12">
+                                                <div class="mt-1">
+                                                    <label for="code">Code</label>
+                                                    <div class="input-group border w-100 mt-2 bg-white">
+                                                        <span class="input-group-text" id="basic-addon1">
+                                                            <i class="fa fa-key"></i>
+                                                        </span>
+                                                        <input type="text" placeholder="Code" required value="<%=data.code %>" disabled
+                                                            id="code" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
                                     </div>
                                 </div>
 

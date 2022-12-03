@@ -3,7 +3,7 @@ const fs = require("fs");
 const PDF = require("html-pdf");
 const ejs = require("ejs");
 
-const { barCreate, paginate, queryDB, queryDBParams, fieldGet, datesInterval, toLocalDate, toIsoDateString, generatePDF } = require("../utils/utils");
+const { barCreate, paginate, queryDB, queryDBParams, fieldGet, datesInterval, toLocalDate, toIsoDateString, generatePDF, datesIntMilliseconds, millisecTotime } = require("../utils/utils");
 
 
 exports.index = async (req, res, next) => {
@@ -22,17 +22,17 @@ exports.index = async (req, res, next) => {
         hr_attendances.employee_id = hr_employee.id
     `;
 
-    let data = await paginate(req, 'hr_attendances', sql);
+    let { data, meta } = await paginate(req, 'hr_attendances', sql);
 
     /** If requested for one employee's attendances */
     let { eq } = req.query;
     if (eq && !isNaN(eq)) {
-      data.data = data.data.filter(item => item.employee_id == eq); 
+      data = data.filter(item => item.employee_id == eq); 
     }
 
     //If is the employee's dashboard
     if (req.user.role == 'employee') {
-      data.data = data.data.filter(e => e.employee_id == req.user.employee_id);
+      data = data.filter(e => e.employee_id == req.user.employee_id);
     }
     
     res.render("Attendance/index", {
@@ -40,9 +40,11 @@ exports.index = async (req, res, next) => {
       appName: 'Attendances',
       appRootLocation: '/attendances',
       barCreate,
-      data: data.data,
+      data,
+      meta,
       user: req.user,
-      req
+      req,
+      millisecTotime
     });
     
   } catch (error) {
@@ -73,12 +75,12 @@ exports.view = async (req, res, next) => {
 
         let data = await queryDB('select * from hr_attendances where id = ' + id);
         res.render("Attendance/view", {
-            page_name: null,
-            appName: 'Attendances',
-            appRootLocation: '/attendances',
-            barCreate,
+          page_name: null,
+          appName: 'Attendances',
+          appRootLocation: '/attendances',
+          barCreate,
           data: data[ 0 ],
-            user:req.user
+          user: req.user,
         });
         
     } catch (error) {
@@ -169,10 +171,12 @@ exports.kiosque = async (req, res) => {
         });
       }
 
-      return  res.render('error', {
+
+      res.status(403).render('error', {
         code: 403,
-        content: 'You have Checked Out At ' + data[ 0 ].checkout
+        content: 'You have already Checked Out today At ' + data[ 0 ].checkout
       });
+      return;
     }
 
   } else {
@@ -264,7 +268,18 @@ exports.apiPut = (req, res, next) => {
       }
     }
 
-    let sql = 'UPDATE hr_attendances SET ? where id = '+req.body.id;
+    /** 
+     * Try to get work time if checked out 
+     * */
+    let { checkin, checkout, id, employee_id } = req.body;
+    
+    //Get time difference in milliseconds
+    let milleseconds = datesIntMilliseconds(checkin, checkout);
+
+    //Set work hours in milliseconds
+    req.body.worked_hours = milleseconds;
+
+    let sql = 'UPDATE hr_attendances SET ? where id = '+id;
     queryDBParams(sql, req.body)
       .then(result => res.redirect("/attendances"))
       .catch(error => {
@@ -274,6 +289,7 @@ exports.apiPut = (req, res, next) => {
           content: error.message || error
         });
       });
+    
   } catch (error) {
     console.log(error);
     res.render("error", {
@@ -316,8 +332,8 @@ exports.apiReport = async (req, res, next) => {
     
     let data = await queryDB(sql);
 
-    /** If user is an employee and has employee role only */
-    if (req.user.role == 'employee') {
+    /** If user is an employee and has employee role only  or only user's attendances */
+    if (req.user.role == 'employee' || req.body.only_user ) {
       data = data.filter(elm => elm.employee_id == req.user.employee_id);
     }
   
@@ -362,7 +378,12 @@ exports.apiReport = async (req, res, next) => {
     };
 
     //Generate PDF
-    generatePDF('attendances_list.ejs', { data: results, meta }, 'Attendances list', res);
+    generatePDF(
+      'attendances_list.ejs',
+      { data: results, meta, millisecTotime },
+      'Attendances list',
+      res
+    );
     
 
   } catch (error) {

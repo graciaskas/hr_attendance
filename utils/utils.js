@@ -61,7 +61,12 @@ exports.toLocalDate = (date) => {
     }
 }
 
-exports.toIsoDateString = (datestring) => {
+/**
+ * Convert string date to valid string date format
+ * @param {*} datestring Date string not in format mm/dd/yy h:m:i
+ * @returns Date string in format mm-dd-yy h:m:i
+ */
+const toIsoDateString = (datestring) => {
     let d = datestring.slice(0, 2);
     let m = datestring.slice(3, 5);
     let y = datestring.slice(6, 10);
@@ -69,6 +74,50 @@ exports.toIsoDateString = (datestring) => {
 
     return `${m}-${d}-${y} ${time}`;
 };
+
+/**
+ * Convert milliseconds to time
+ * @param {*} milliseconds milliseconds
+ * @returns time to format h:m:i
+ */
+exports.millisecTotime = (milliseconds) => {
+   
+    if (typeof milliseconds == undefined || milliseconds == null ||  isNaN(milliseconds)) {
+        throw Error('Invalid argument passed !');
+    } 
+    if (isNaN(milliseconds)) throw Error('Argument should be number !');
+    
+    let seconds = Math.floor(milliseconds / 1000);
+    let minutes = Math.floor(seconds / 60);
+    let hours = Math.floor(minutes / 60);
+
+    seconds %= 60;
+    minutes %= 60;
+
+    if (seconds < 10) seconds = '0'+seconds;
+    if (minutes < 10) minutes = '0'+minutes;
+    if (hours < 10) hours = '0'+hours;
+
+    return `${hours}:${minutes}:${seconds}`;
+}
+
+
+exports.datesIntMilliseconds = (dateOne, dateTwo) => {
+    dateOne = new Date(toIsoDateString(dateOne));
+    dateTwo = new Date(toIsoDateString(dateTwo));
+
+    //Check if dates are valid dates;
+    if ( !(dateOne instanceof Date && !isNaN(dateOne)) || !(dateTwo instanceof Date && !isNaN(dateTwo))) {
+        throw Error("Only valid dates are accepted !");
+    }
+    //Get time difference milliseconds
+    let milleseconds = dateTwo.getTime() - dateOne.getTime();
+
+    //Check if date two greater that date one
+    if(milleseconds < 0) throw Error("Second date must be greater than first date!");
+    
+    return milleseconds;
+}
 
 /**
  * Get interval between two given date time
@@ -116,17 +165,17 @@ const datesInterval = (dateOne, dateTwo) => {
 exports.paginate = function (req, tableName, sql) {
     return new Promise(async (resolve, reject) => {
         try {
-            let { pg, lim } = req.query;
+            let { page, limit } = req.query;
             let total = await query(`select count(*) as total from ${tableName}`);
             
-            let itemsPerPage = parseInt(lim) || 24;
+            let itemsPerPage = parseInt(limit) || 9;
             let total_pages = Math.ceil(total[ 0 ].total / itemsPerPage);
             let currentPage = 1;
             
-            if (pg) {
-                if (!isNaN(pg)) {
-                    currentPage = parseInt(pg);
-                    if (pg > total_pages) {
+            if (page) {
+                if (!isNaN(page)) {
+                    currentPage = parseInt(page);
+                    if (page > total_pages) {
                         currentPage = total_pages;
                     }
                 } else {
@@ -137,7 +186,7 @@ exports.paginate = function (req, tableName, sql) {
             let start = (currentPage - 1) * itemsPerPage;
 
             if (sql) { // If any SQL Query provided;
-                sql = `${sql}  ORDER BY id DESC LIMIT  ${start},${itemsPerPage}`;
+                sql = `${sql}  ORDER BY ${tableName}.id DESC LIMIT  ${start},${itemsPerPage}`;
             } else {
                 sql = `select * from ${tableName} ORDER BY id DESC LIMIT  ${start},${itemsPerPage}`
             }
@@ -147,8 +196,8 @@ exports.paginate = function (req, tableName, sql) {
                     resolve({
                         data,
                         meta: {
-                            total_items: data.length,
                             items_onpage: itemsPerPage,
+                            total_items: total[0].total,
                             current_page: currentPage,
                             total_pages
                         }
@@ -192,7 +241,17 @@ exports.generatePDF = ( fileName, data, reportName, res ) => {
 
 exports.barCreate = (options) => {
     
-    let { appName, appRootLocation, create, reports = [] } = options;
+    //Destructure options
+    let { appName, create, meta, reports = [] } = options;
+
+    /**Next page number **/
+    let nextPage = meta.current_page + 1;
+    if (nextPage > meta.total_pages) nextPage = meta.total_pages;
+    
+    /** Previous page number **/
+    let prevPage = meta.current_page - 1;
+    if (prevPage < 0 || prevPage == 0) prevPage = 1;
+    
 
     let reportList = reports.map(report => {
         let item = `
@@ -254,22 +313,22 @@ exports.barCreate = (options) => {
                     <div class='pagination' role="list">
                         <li class="page-item">
                             <a href="#" class='page-link input'>
-                                <input type="number" defaultValue={data.length} />
+                                <input type="number" value='${meta.current_page}' />
                             </a>
                         </li>
             
                         <li class="page-item">
-                            <a href="#" class='page-link'>02</a>
+                            <a href="#" class='page-link'>${meta.total_pages}</a>
                         </li>
             
                         <li class="page-item">
-                            <a href="#" class='page-link'>
+                            <a href="?page=${prevPage}" class='page-link'>
                                 <i class="fa fa-chevron-circle-left"></i>
                             </a>
                         </li>
             
                         <li class="page-item">
-                            <a href="#" class='page-link'>
+                            <a href="?page=${nextPage}" class='page-link'>
                                 <i class="fa fa-chevron-circle-right"></i>
                             </a>
                         </li>
@@ -302,3 +361,4 @@ exports.queryDBParams = queryDBParams;
 exports.fieldGet = fieldGet; 
 exports.hashPassword = hashPassword;
 exports.datesInterval = datesInterval;
+exports.toIsoDateString = toIsoDateString;

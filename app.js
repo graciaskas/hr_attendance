@@ -67,7 +67,7 @@ app.use(express.static(__dirname + '/public'));
 app.use((req, res, next) => {
   res.render("error", {
     code: 404,
-    content: "Sorry, We could not find the page you're trying to  reach!<br>couldn't find what you're looking for"
+    content: `Sorry, We could not find the page you're trying to  reach !\t\t Make sure you didn't enter the URL manauly !`
   });
 });
 

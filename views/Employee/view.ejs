@@ -11,7 +11,7 @@
 
                     <div class="main-content">
 
-                        <div class="container">
+                        <div class="container-lg">
 
                             <div class="row">
 
@@ -20,6 +20,7 @@
                                     <form class="user-form" action="/api/employees/?action=update" method="post">
 
                                         <div class="bg-white  rounded shadow-default p-3">
+
                                             <h5 class='text-secondary  text-raleway'>
                                                 <a href='/dashboard'><i class='fa fa-home'></i></a> /
                                                 <a href='/employees'>Employees</a> / <%= data.name %>
@@ -102,7 +103,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-6 col-12">
+                                                        <div class="col-md-6 col-sm-6 col-12">
                                                             <label for="email">Email address</label>
                                                             <div class="input-group border w-100 mt-2 bg-white">
                                                                 <span class="input-group-text">
@@ -113,7 +114,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-6 col-12">
+                                                        <div class="col-md-6 col-sm-6 col-12">
                                                             <label for="job_title">Job Title</label>
                                                             <div class="input-group border w-100 mt-2 bg-white">
                                                                 <span class="input-group-text">
@@ -186,8 +187,8 @@
                                                                                     class="w-100" disabled>
                                                                                     <option value="male" selected="<%=data.gender%>">Male
                                                                                     </option>
-                                                                                    <option value="female">
-                                                                                        Female</option>
+                                                                                    <option value="female">Female</option>
+                                                                                        
                                                                                 </select>
                                                                             </div>
                                                                         </div>
@@ -201,7 +202,7 @@
                                                                                 <div
                                                                                     class="input-group border  w-100 mt-2 bg-white">
                                                                                     <input type="hidden"
-                                                                                        name="department_id" value="<%=data.department_id %>">
+                                                                                        name="department_id" value="<%=data.dep_name %>">
                                                                                     <span class="input-group-text">
                                                                                         <i class="fa fa-building"></i>
                                                                                     </span>
@@ -233,10 +234,10 @@
                                                                                     <input 
                                                                                         type="text"
                                                                                         placeholder="Supervisor"
-                                                                                        required 
+                                                                                       
                                                                                         class="inputSelect"
                                                                                         data-route="employees"
-                                                                                        value="<%=data.supervisor_name%>"
+                                                                                        value="<%=data.sup_name%>"
                                                                                         disabled
                                                                                     />
                                                                                     <ul

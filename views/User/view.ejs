@@ -10,195 +10,201 @@
                 <%- include('../Modals/changePasswordModal.ejs') %>
 
                 <div class="main-content">
-                    <div class="container">
+                    <div class="container-lg">
                         <div class="row">
 
                            
-
-                            <div class="col-12">
-                                <div class="bg-white  rounded shadow-default p-3">
-                                    <h5 class='text-secondary  text-raleway'>
-                                        <a href='/dashboard'><i class='fa fa-home'></i></a> /
-                                        <a href='/users'>Users</a> /
-                                        <%= data.name %>
-                                    </h5>
-                                </div>
-                            </div>
-
-
                             <div class='container'>
 
 
-                                <form class="mt-3 p-3 bg-white rounded shadow-default user-form">
+                                <form class="user-form" action="/api/users/?action=update" method="post">
                                     <div class="row">
 
                                         <div class="col-12">
-                                            <div class="d-flex user-stats">
-
-                                                <a href="/reset" class="text-secondary stat-button d-flex align-item-center px-2">
-                                                    <i class="fa fa-lock-open stat-icon"></i>
-                                                    <div class="stat-info pt-2">
-                                                        <span class="d-block">Reset password</span>
-                                                    </div>
-                                                </a>
+                                            <div class="bg-white  rounded shadow-default p-3">
+                                                <h5 class='text-secondary  text-raleway'>
+                                                    <a href='/dashboard'><i class='fa fa-home'></i></a> /
+                                                    <a href='/users'>Users</a> /
+                                                    <%= data.name %>
+                                                </h5>
+                                                <% if(user.role=='admin' ) { %>
+                                                    <div class='border-top pt-3'>
+                                                        <button type="submit" class='btn bg-primary d-none' style='margin-right:7px'>Save</button>
+                                                        <button type="button" class='btn bg-primary' style='margin-right:7px'>Modify</button>
                                                 
-                                                <div 
-                                                    class="stat-button d-flex align-item-center px-2" 
-                                                    role="button" 
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#changePasswordModal">
-
-                                                    <i class="fa fa-key stat-icon"></i>
-                                                    <div class="stat-info pt-2">
-                                                        <span class="d-block">Change password</span>
+                                                        <a href='/users' class='btn bg-gray ml-4 d-none'>Cancel</a>
                                                     </div>
-                                                </div>
-
-                                                <% if(data.is_employee && data.employee_id ) { %>
-                                                    <a href="/employees/view/<%=data.employee_id %>" class="stat-button d-flex align-item-center px-2 text-secondary">
-                                                        <i class="fa fa-users stat-icon"></i>
-                                                        <div class="stat-info">
-                                                            <span
-                                                                class="stat_value badge bg-secondary d-inline-block">1</span>
-                                                            <span class="d-block">Employee</span>
-                                                        </div>
-                                                    </a>
-                                                <%  } %>
-
-                                                
-
-
+                                                <% } %>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-2">
-                                            <div class="user-profile bg-white p-2 rounded">
-                                                <div class="image">
-                                                    <img src="/src/author.jpg" alt=""
-                                                        style="height:120px;width:100%" class='img-fluid rounded' />
-                                                    <input type="file" hidden id='user-profile' />
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="col-lg-10">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="input-group border  w-100 mt-2 bg-white">
-                                                        <span class="input-group-text" id="basic-addon1">
-                                                            <i class="fa fa-user"></i>
-                                                        </span>
-                                                        <input type="text" placeholder="Names" required
-                                                            value="<%= data.name %>" disabled />
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-12">
-                                                    <div class="input-group border w-100 mt-2 bg-white">
-                                                        <span class="input-group-text" id="basic-addon1">
-                                                            <i class="fa fa-at"></i>
-                                                        </span>
-                                                        <input type="email" placeholder="Email" required
-                                                            value="<%= data.email %>" disabled />
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-12">
-                                                    <div class="input-group border w-100 mt-2 bg-white">
-                                                        <span class="input-group-text" id="basic-addon1">
-                                                            <i class="fa fa-at"></i>
-                                                        </span>
-                                                        <input type="text" placeholder="Login" required value="<%= data.login %>" disabled />
-                                                    </div>
-                                                </div>
-
-                                                
-
-                                            </div>
-                                        </div>
 
                                         <div class="col-12">
-                                            <div class="p-2 bg-white">
+                                            <div class="mt-3 p-3 bg-white rounded shadow-default">
+                                                <div class="d-flex user-stats">
 
-                                                <ul class="nav nav-tabs" id="userTab" role="tablist">
-                                                    <li class="nav-item" role="presentation">
-                                                        <a class="nav-link text-secondary text-raleway active"
-                                                            data-bs-toggle="tab" data-bs-target="#info"
-                                                            href='#info'>
-                                                            Access rights
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link text-secondary text-raleway"
-                                                            data-bs-toggle="tab" data-bs-target="#u_pre"
-                                                            href='#u_pre'>
-                                                            Preferences
-                                                        </a>
-                                                    </li>
-                                                </ul>
+                                                    <a href="/reset" class="text-secondary stat-button d-flex align-item-center px-2">
+                                                        <i class="fa fa-lock-open stat-icon"></i>
+                                                        <div class="stat-info pt-2">
+                                                            <span class="d-block">Reset password</span>
+                                                        </div>
+                                                    </a>
+                                                    
+                                                    <div 
+                                                        class="stat-button d-flex align-item-center px-2" 
+                                                        role="button" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#changePasswordModal">
 
-                                                <div class="tab-content p-2" id="userTabContent">
-                                                    <div class="tab-pane show active" id="info" role="tabpanel">
-                                                        <div class="row">
-
-                                                            <div class="col-md-6 col-12">
-                                                                <label for="role">Role</label>
-                                                                <div class="input-group border w-100 mt-2 bg-white">
-                                                                    <span class="input-group-text" id="basic-addon1">
-                                                                      
-                                                                        <i class="fa fa-poll-h"></i>
-                                                                    </span>
-                                                                    <select required class="w-100" id="role">
-                                                                     
-                                                                        <option disabled>Select role</option>
-                                                                        <option value="admin">Administrator</option>
-                                                                        <option value="admin">User</option>
-                                                                        <option value="admin">Employee</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
+                                                        <i class="fa fa-key stat-icon"></i>
+                                                        <div class="stat-info pt-2">
+                                                            <span class="d-block">Change password</span>
                                                         </div>
                                                     </div>
 
-                                                    <div class="tab-pane" id="u_pre" role="tabpanel">
-                                                        <h5>Localization</h5>
-                                                        <div class="row">
-                                                        
-                                                            <div class="col-md-6 col-12">
-                                                                <label for="role">Language</label>
-                                                                <div class="input-group border w-100 mt-2 bg-white">
-                                                                    <span class="input-group-text" id="basic-addon1">
-                                                        
-                                                                        <i class="fa fa-poll-h"></i>
-                                                                    </span>
-                                                                    <select required class="w-100" id="role">
-                                                        
-                                                                        <option disabled>Select Language</option>
-                                                                        <option value="en_US">English</option>
-                                                                        <option value="fr_FR">Francais</option>
-                                                                        
-                                                                    </select>
-                                                                </div>
+                                                    <% if(data.is_employee && data.employee_id ) { %>
+                                                        <a href="/employees/view/<%=data.employee_id %>" class="stat-button d-flex align-item-center px-2 text-secondary">
+                                                            <i class="fa fa-users stat-icon"></i>
+                                                            <div class="stat-info">
+                                                                <span
+                                                                    class="stat_value badge bg-secondary d-inline-block">1</span>
+                                                                <span class="d-block">Employee</span>
                                                             </div>
+                                                        </a>
+                                                    <%  } %>
 
-                                                            <div class="col-md-6 col-12">
-                                                                <label for="role">Time zone</label>
-                                                                <div class="input-group border w-100 mt-2 bg-white">
+                                                    
+
+
+                                                </div>
+                                            
+                                                <div class="row">
+                                                    <div class="col-lg-2">
+                                                        <div class="user-profile bg-white p-2 rounded">
+                                                            <div class="image">
+                                                                <img src="/src/author.jpg" alt="" style="height:120px;width:100%" class='img-fluid rounded' />
+                                                                <input type="file" hidden id='user-profile' />
+                                                                <input type="hidden" name="id" value="<%=data.id%>">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-10">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="input-group border  w-100 mt-2 bg-white">
                                                                     <span class="input-group-text" id="basic-addon1">
-                                                            
-                                                                        <i class="fa fa-poll-h"></i>
+                                                                        <i class="fa fa-user"></i>
                                                                     </span>
-                                                                    <select required class="w-100" id="role">
-                                                            
-                                                                        <option disabled>Select time zone</option>
-                                                                        <option value="en_US">English</option>
-                                                                        <option value="fr_FR">Francais</option>
-                                                            
-                                                                    </select>
+                                                                    <input type="text" placeholder="Names" required value="<%= data.name %>" disabled name="name"/>
                                                                 </div>
                                                             </div>
-                                                        
+                                                    
+                                                            <div class="col-12">
+                                                                <div class="input-group border w-100 mt-2 bg-white">
+                                                                    <span class="input-group-text" id="basic-addon1">
+                                                                        <i class="fa fa-at"></i>
+                                                                    </span>
+                                                                    <input type="email" placeholder="Email" required value="<%= data.email %>" disabled name="email"/>
+                                                                </div>
+                                                            </div>
+                                                    
+                                                            <div class="col-12">
+                                                                <div class="input-group border w-100 mt-2 bg-white">
+                                                                    <span class="input-group-text" id="basic-addon1">
+                                                                        <i class="fa fa-at"></i>
+                                                                    </span>
+                                                                    <input type="text" placeholder="Login" required value="<%= data.login %>" disabled name="login"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12">
+                                                        <div class="p-2 bg-white">
+                                                    
+                                                            <ul class="nav nav-tabs" id="userTab" role="tablist">
+                                                                <li class="nav-item" role="presentation">
+                                                                    <a class="nav-link text-secondary text-raleway active" data-bs-toggle="tab" data-bs-target="#info"
+                                                                        href='#info'>
+                                                                        Access rights
+                                                                    </a>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link text-secondary text-raleway" data-bs-toggle="tab" data-bs-target="#u_pre"
+                                                                        href='#u_pre'>
+                                                                        Preferences
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                    
+                                                            <div class="tab-content p-2" id="userTabContent">
+                                                                <div class="tab-pane show active" id="info" role="tabpanel">
+                                                                    <div class="row">
+                                                    
+                                                                        <div class="col-md-6 col-12">
+                                                                            <label for="role">Role</label>
+                                                                            <div class="input-group border w-100 mt-2 bg-white">
+                                                                                <span class="input-group-text" id="basic-addon1">
+                                                    
+                                                                                    <i class="fa fa-poll-h"></i>
+                                                                                </span>
+                                                                                <select required class="w-100" id="role" disabled name="roles">
+                                                  
+                                                                                    <option disabled>Select role</option>
+                                                                                    <option value="admin">Administrator</option>
+                                                                                    <option value="admin">User</option>
+                                                                                    <option value="admin">Employee</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                    
+                                                                    </div>
+                                                                </div>
+                                                    
+                                                                <div class="tab-pane" id="u_pre" role="tabpanel">
+                                                                    <h5>Localization</h5>
+                                                                    <div class="row">
+                                                    
+                                                                        <div class="col-md-6 col-12">
+                                                                            <label for="lang">Language</label>
+                                                                            <div class="input-group border w-100 mt-2 bg-white">
+                                                                                <span class="input-group-text" id="basic-addon1">
+                                                    
+                                                                                    <i class="fa fa-poll-h"></i>
+                                                                                </span>
+                                                                                <select required class="w-100" id="lang" name="lang">
+                                                    
+                                                                                    <option disabled>Select Language</option>
+                                                                                    <option value="en_US">English</option>
+                                                                                    <option value="fr_FR">Francais</option>
+                                                    
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                    
+                                                                        <div class="col-md-6 col-12">
+                                                                            <label for="zone">Time zone</label>
+                                                                            <div class="input-group border w-100 mt-2 bg-white">
+                                                                                <span class="input-group-text" id="basic-addon1">
+                                                    
+                                                                                    <i class="fa fa-poll-h"></i>
+                                                                                </span>
+                                                                                <select required class="w-100" id="zone">
+                                                    
+                                                                                    <option disabled>Select time zone</option>
+                                                                                    <option value="en_US">English</option>
+                                                                                    <option value="fr_FR">Francais</option>
+                                                    
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                    
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                    
                                                         </div>
                                                     </div>
                                                 </div>

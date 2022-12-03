@@ -1,6 +1,35 @@
+# HR Attendance
 
-* Create the database using following query in mysql : `CREATE DATABASE databasename;`
-* Create tables using the sql script file in `databse/cms.sql`;
-* To seed data in the database run to file in `seed` folder
-* To start the application execute `npm start`
+HR Attendance is an OpenSource web based application.
 
+## Software requirements
+
+- Nodejs Server >=12
+- MySQL Server or PhpMyAdmin DBMS;
+
+## User requirements
+
+- NodeJS >=12
+- MongoDB ==4.4
+
+## Start the application
+
+In the project directory, you can run:
+
+### `npm install`
+
+Install project dependencies
+
+### `npm run dev`
+
+Runs the app in the development mode.\
+Open [http://localhost:5000](http://localhost:5000) to view it in your browser.
+
+### `npm test`
+
+Runs tests
+
+### `npm start`
+
+Runs the app in the development mode.\
+Open [http://localhost:5000](http://localhost:5000) to view it in your browser.
