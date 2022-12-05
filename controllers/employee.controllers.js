@@ -16,7 +16,9 @@ exports.index = async (req, res, next) => {
         hr_employee.id,hr_employee.name,hr_employee.mobile_phone,hr_employee.job_title,
         hr_employee.email, 
         (SELECT name FROM hr_departments WHERE hr_employee.department_id = hr_departments.id) AS dep_name 
-      FROM hr_employee JOIN hr_departments ON hr_employee.department_id = hr_departments.id`;
+      FROM hr_employee 
+      LEFT JOIN hr_departments 
+      ON hr_employee.department_id = hr_departments.id`;
     
     let { data, meta } = await paginate(req, 'hr_employee', sql);
     
@@ -139,6 +141,17 @@ exports.apiPost = async (req, res,next) => {
       return;
     }
 
+    //if supervisor is not set remove it
+    if(req.body.supervisor_id == "") {
+      delete req.body.supervisor_id;
+    }
+
+    //if country is not set remove it
+    if(req.body.country_id == "") {
+      delete req.body.country_id;
+    }
+    
+
     let sql = "INSERT INTO hr_employee SET ?";
     //execute query
     await queryDBParams(sql, req.body);
@@ -160,10 +173,22 @@ exports.apiPut = async (req, res, next) => {
       next();
       return;
     }
+
+    //if supervisor is not set remove it
+    if(req.body.supervisor_id == "") {
+      delete req.body.supervisor_id;
+    }
+
+    //if country is not set remove it
+    if(req.body.country_id == "") {
+      delete req.body.country_id;
+    }
+        
     let sql = `UPDATE hr_employee SET ? WHERE id = ${req.body.id}`;
     //execute query
     await queryDBParams(sql, req.body);
     res.redirect('/employees');
+  
   } catch (error) {
     console.log(error);
     res.render("error", {
@@ -181,12 +206,9 @@ exports.apiReport = async (req, res) => {
         hr_employee.id, hr_employee.name, hr_employee.roll_no, 
         hr_employee.job_title, hr_employee.mobile_phone,hr_employee.email,
         (SELECT name from hr_departments WHERE hr_employee.department_id = hr_departments.id) as dep_name 
-      FROM
-        hr_employee
-      JOIN 
-        hr_departments 
-      ON 
-        hr_employee.department_id = hr_departments.id
+      FROM hr_employee
+      LEFT JOIN hr_departments 
+      ON hr_employee.department_id = hr_departments.id
       ORDER BY hr_employee.name ASC
     `;
     

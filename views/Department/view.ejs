@@ -13,7 +13,7 @@
 
                     <div class='container'>
 
-                        <form class="user-form">
+                        <form class="user-form" action="/api/departments/?action=update" method="POST">
                             <div class="row">
 
                                 <div class="col-12">
@@ -23,6 +23,12 @@
                                             <a href='/departments'>Departments</a> /
                                             <%= data.name %>
                                         </h5>
+
+                                        <div class='border-top pt-3'>
+                                            <button type="submit" class='btn bg-primary d-none' style='margin-right:7px'>Save</button>
+                                            <button type="button" class='btn bg-primary' style='margin-right:7px'>Modify</button>
+                                            <a href='/departments' class='btn bg-gray ml-4 d-none'>Cancel</a>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -45,7 +51,7 @@
                                                         <span class="input-group-text" id="basic-addon1">
                                                             <i class="fa fa-building"></i>
                                                         </span>
-                                                        <input type="text" placeholder="Names" required value="<%= data.name %>" disabled id="name"/>
+                                                        <input type="text" name="name" placeholder="Names" required value="<%= data.name %>" disabled id="name"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -57,7 +63,7 @@
                                                         <span class="input-group-text" id="basic-addon1">
                                                             <i class="fa fa-building"></i>
                                                         </span>
-                                                        <input type="email" placeholder="Email" required value="<%= data.email %>" disabled id="parent_dep"/>
+                                                        <input type="email"  placeholder="Parent department"  value="<%= data.email %>" disabled id="parent_dep"/>
                                                     </div>
                                                 </div>
                                                
@@ -70,7 +76,7 @@
                                                         <span class="input-group-text" id="basic-addon1">
                                                             <i class="fa fa-user"></i>
                                                         </span>
-                                                        <input type="text" placeholder="Department's manager" required value="<%=data.job_title %>" disabled id="manager"/>
+                                                        <input type="text" name="manager_id" placeholder="Department's manager"  value="<%=data.job_title %>" disabled id="manager"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -82,8 +88,7 @@
                                                         <span class="input-group-text" id="basic-addon1">
                                                             <i class="fa fa-key"></i>
                                                         </span>
-                                                        <input type="text" placeholder="Code" required value="<%=data.code %>" disabled
-                                                            id="code" />
+                                                        <input type="text" name="code" placeholder="Code" required value="<%=data.code %>" disabled id="code" />
                                                     </div>
                                                 </div>
                                             </div>

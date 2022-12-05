@@ -16,7 +16,7 @@ exports.index = async (req, res, next) => {
         (SELECT name from hr_employee WHERE hr_attendances.approved_by = hr_employee.id) as emp_approved
       FROM 
         hr_attendances 
-      JOIN 
+      LEFT JOIN 
         hr_employee 
       ON 
         hr_attendances.employee_id = hr_employee.id
@@ -70,42 +70,42 @@ exports.create = (req, res, next) => {
 
 exports.view = async (req, res, next) => {
     try {
-        let { id } = req.params || null;
-        if (!id && isNaN(id)) throw Error("invalid type parameter !");
+      let { id } = req.params || null;
+      if (!id && isNaN(id)) throw Error("invalid type parameter !");
 
-        let data = await queryDB('select * from hr_attendances where id = ' + id);
-        res.render("Attendance/view", {
-          page_name: null,
-          appName: 'Attendances',
-          appRootLocation: '/attendances',
-          barCreate,
-          data: data[ 0 ],
-          user: req.user,
-        });
+      let data = await queryDB('select * from hr_attendances where id = ' + id);
+      res.render("Attendance/view", {
+        page_name: null,
+        appName: 'Attendances',
+        appRootLocation: '/attendances',
+        barCreate,
+        data: data[ 0 ],
+        user: req.user,
+      });
         
     } catch (error) {
-        res.render("error", {
-            code: 500,
-            content: error.message || error
-        })
+      res.render("error", {
+        code: 500,
+        content: error.message || error
+      })
     }
 }
 
 exports.update = async (req, res) => {
     try {
-        let { id } = req.params || null;
-        if (!id && isNaN(id)) throw Error("invalid type parameter !");
+      let { id } = req.params || null;
+      if (!id && isNaN(id)) throw Error("invalid type parameter !");
 
-        let data = await queryDB('select * from hr_attendances where id = ' + id);
-        
-        res.render("Attendance/update", {
-            page_name: null,
-            appName: 'Attendances',
-            appRootLocation: '/Attendances',
-            barCreate,
-          data: data[ 0 ],
-            user:req.user
-        });
+      let data = await queryDB('select * from hr_attendances where id = ' + id);
+      
+      res.render("Attendance/update", {
+          page_name: null,
+          appName: 'Attendances',
+          appRootLocation: '/Attendances',
+          barCreate,
+        data: data[ 0 ],
+          user:req.user
+      });
         
     } catch (error) {
       res.render("error", {
@@ -119,84 +119,81 @@ exports.kiosque = async (req, res) => {
 
   try {
 
-  //if is not an employee
-    if (req.user.employee_id == "" || req.user.employee_id == null) {
-      return res.render("error", {
-        code: 401,
-        content: "You are not allowed to access this resource ! \n Only employee are allowed !"
+    if(!req.user.is_employee == "" || req.user.employee_id == null ){
+      return res.render("error",{
+        code:500,
+        content: "You are not allowed to access this resource ! \n Only employee are allowed"
       });
     }
 
-  //Get the lastest attendance from this user employee
-  let sql = 'SELECT * FROM hr_attendances WHERE employee_id = ? order by id desc limit 1';
-  let data = await queryDBParams(sql, req.user.employee_id);
+    //Get the lastest attendance from this user employee
+    let sql = 'SELECT * FROM hr_attendances WHERE employee_id = ? order by id desc limit 1';
+    let data = await queryDBParams(sql, req.user.employee_id);
     
-  let canCheckOut = false;
-  let hasCheckOut = false;
+    let canCheckOut = false;
+    let hasCheckOut = false;
 
-  let t = null;
+    let t = null;
 
-  //If has attendee
-  if (data.length > 0) {
-    //Desctructure data
-    let { checkin, checkout, id, state } = data[ 0 ];
-    let currentTime = new Date();  //Current date time;
+    //If has attendee
+    if (data.length > 0) {
+      //Desctructure data
+      let { checkin, checkout, id, state } = data[ 0 ];
+      let currentTime = new Date();  //Current date time;
 
-    //Convert checkin date to corresponding date format;
-    checkin = toIsoDateString(checkin);
+      //Convert checkin date to corresponding date format;
+      checkin = toIsoDateString(checkin);
 
-    //Interval between checkin and current date time;
-    t = datesInterval(checkin, currentTime.toISOString());
-    t.id = id;
-    
-    //If has not checked out yet
-    if (state == 'draft' && checkout == null) {
-      canCheckOut = true; //Can checkout;
-    
-    //If has not checked out
-    } else  if (checkout != null) {
-      hasCheckOut = true;
+      //Interval between checkin and current date time;
+      t = datesInterval(checkin, currentTime.toISOString());
+      t.id = id;
+      
+      //If has not checked out yet
+      if (state == 'draft' && checkout == null) {
+        canCheckOut = true; //Can checkout;
+      
+      //If has not checked out
+      } else  if (checkout != null) {
+        hasCheckOut = true;
 
-      /*** 
-       * If it is not the same day 
-       * 
-      */
-      checkout = new Date(toIsoDateString(checkout));
-      //Checkout to current timed seconds difference;
-      let checkoutToNowDiffSec = Math.floor((currentTime - checkout) / 1000);
-      //Get days form checkoutToNowDiffSec;
-      let days = Math.round(checkoutToNowDiffSec / (60 * 60 * 24));
+        /*** 
+         * If it is not the same day 
+         * 
+        */
+        checkout = new Date(toIsoDateString(checkout));
+        //Checkout to current timed seconds difference;
+        let checkoutToNowDiffSec = Math.floor((currentTime - checkout) / 1000);
+        //Get days form checkoutToNowDiffSec;
+        let days = Math.round(checkoutToNowDiffSec / (60 * 60 * 24));
 
-      if (days != 0) {
-        canCheckOut = false;
-        hasCheckOut = false;
+        if (days != 0) {
+          canCheckOut = false;
+          hasCheckOut = false;
 
-        return res.render('Attendance/kiosque', {
-          user: req.user,
-          canCheckOut,
-          t,
-          checkin: data.length && data[ 0 ].checkin || null,
-          hasCheckOut
+          return res.render('Attendance/kiosque', {
+            user: req.user,
+            canCheckOut,
+            t,
+            checkin: data.length && data[ 0 ].checkin || null,
+            hasCheckOut
+          });
+        }
+
+        res.status(403).render('error', {
+          code: 403,
+          content: 'You have already Checked Out today At ' + data[ 0 ].checkout
         });
+        return;
       }
 
-
-      res.status(403).render('error', {
-        code: 403,
-        content: 'You have already Checked Out today At ' + data[ 0 ].checkout
-      });
-      return;
+    } else {
+      canCheckOut = false;
+      hasCheckOut = false;
     }
-
-  } else {
-    canCheckOut = false;
-    hasCheckOut = false;
-  }
 
     return res.render('Attendance/kiosque', {
       user: req.user,
-      canCheckOut,
-      t,
+      canCheckOut, t,
       checkin: data.length ? data[ 0 ].checkin : null,
       hasCheckOut
     });
@@ -204,8 +201,9 @@ exports.kiosque = async (req, res) => {
 
   } catch (error) {
     console.log(error);
+    
     res.render('error', {
-      code: 500,
+      code: 5000,
       content: error.message || error
     });
   }
@@ -324,11 +322,9 @@ exports.apiReport = async (req, res, next) => {
 
     /** Check required fields **/
     let { checkin, checkout, state } = req.body;
-
     if ((checkin.value == "" || checkout.value == "")) {
       return res.redirect('/attendances/?error=required fields');
     } 
-
 
     //SQL QUERY
     const sql = `
@@ -338,7 +334,7 @@ exports.apiReport = async (req, res, next) => {
         (SELECT name from hr_employee WHERE hr_attendances.approved_by = hr_employee.id) as emp_approved
       FROM
         hr_attendances
-      JOIN hr_employee ON hr_attendances.employee_id = hr_employee.id`;
+      LEFT JOIN hr_employee ON hr_attendances.employee_id = hr_employee.id`;
     
     let data = await queryDB(sql);
 

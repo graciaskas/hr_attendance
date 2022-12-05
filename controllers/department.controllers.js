@@ -17,10 +17,11 @@ exports.index = async (req, res, next) => {
         hr_employee.name AS emp_name,
         (SELECT COUNT(*) FROM hr_employee WHERE department_id = dep_id) AS dep_emp
       FROM hr_departments 
-      JOIN hr_employee ON hr_departments.manager_id = hr_employee.id
+      LEFT JOIN hr_employee ON hr_departments.manager_id = hr_employee.id
     `;
 
     let { data, meta } = await paginate(req,'hr_departments',sql);
+
 
     res.render("Department/index", {
       page_name: null,
@@ -126,10 +127,17 @@ exports.apiPost = async (req, res, next) => {
       next();
       return;
     }
+
+    //Check if manager_id is not set
+    if(req.body.manager_id == ""){
+      delete req.body.manager_id; //Remove attribute if is empty value;
+    }
+    
+
     let sql = `INSERT INTO hr_departments SET ? `;
     //execute query
     queryDBParams(sql, req.body)
-      .then(result => res.redirect('/Departments'))
+      .then(result => res.redirect('/departments'))
       .catch(err => { 
         res.render('Department/create', {
           error: err.message || err,
@@ -155,7 +163,20 @@ exports.apiPut = async (req, res, next ) => {
       next();
       return;
     }
-    res.json('odoo');
+   
+    //If no manager, remove req.body manager_id key to prevent Constrainst error;
+    if(req.body.manager_id == "") delete req.body.manager_id;
+
+    let sql = "UPDATE hr_departments SET ?";
+    queryDBParams(sql, [req.body])
+      .then(result => res.redirect("/departments"))
+      .catch( error => {
+        res.render("error",{
+          code: 500,
+          content: error.message || error
+        });
+      });
+
   } catch (error) {
     console.log(error);
     res.render("error", {
@@ -184,12 +205,9 @@ exports.apiReport = async (req, res, next) => {
         hr_departments.active as dep_active, 
         hr_employee.name AS dep_manager,
         (SELECT COUNT(*) FROM hr_employee WHERE department_id = dep_id) AS dep_emp
-      FROM 
-        hr_departments 
-      JOIN 
-        hr_employee 
-      ON 
-        hr_departments.manager_id = hr_employee.id
+      FROM hr_departments 
+      LEFT JOIN hr_employee 
+      ON hr_departments.manager_id = hr_employee.id
       ORDER BY dep_name ASC;
     `;
 

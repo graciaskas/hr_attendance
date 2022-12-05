@@ -7,9 +7,9 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-CREATE DATABASE IF NOT EXISTS `YourDbName`;
+CREATE DATABASE IF NOT EXISTS `hr_attendance`;
 
-USE `YourDbName`;
+USE `hr_attendance`;
 
 -- CREATE TABLE `hr_attendances`
 CREATE TABLE IF NOT EXISTS  `hr_attendances` (
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS  `hr_departments` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `code` varchar(6) NOT NULL UNIQUE KEY,
   `name` varchar(255) NOT NULL UNIQUE KEY,
-  `manager_id` int(11) NOT NULL,
+  `manager_id` int(11) NULL DEFAULT NULL,
   `total_employees` int(11) NOT NULL,
   `create_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `create_user` int(11) NOT NULL,
@@ -104,6 +104,9 @@ CREATE TABLE IF NOT EXISTS `hr_users` (
   `time_zone` int(11) NOT NULL,
   `lang` varchar(45) NOT NULL DEFAULT 'en_US'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- INSERT ADMIN
+INSERT INTO `hr_users` (name,login,email,password,roles) VALUES ('Chrispin Admin','chrispin','admin@example.com','admin','admin');
 
 
 -- CREATE TABLES INDEX --------------------------------------

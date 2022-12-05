@@ -8,7 +8,7 @@ const department = require("../controllers/department.controllers");
 const user = require("../controllers/user.controllers");
 
 const { requireAuth, forwardAuth } = require("../middlewares/auth.middleware");
-const { adminRoute, userRoute } = require("../middlewares/roles.middleware");
+const { adminRoute, userRoute, employeeRoute } = require("../middlewares/roles.middleware");
 
 const router = express.Router();
 
@@ -40,10 +40,24 @@ router.route("/departments")
     })
 
 
+
+// // if is et thedon makavlei the don
+// if the don  kep thedonf 
+ 
+// kkkddd 
+
+// djkthedpn09$lkkc 
+//  dkd8 teh fio tjtyehe donyoond d0nt kdkdffffo tje 
+//   thepn dik gookt mckckujt
+//    tjh dpm t
+
+
+
+
 //attendance route
 router.route("/attendances")
     .get([ requireAuth,attendance.apiGet ])
-    .post([ requireAuth, userRoute, attendance.apiPost, attendance.apiPut, attendance.apiReport ])
+    .post([ requireAuth, employeeRoute, attendance.apiPost, attendance.apiPut, attendance.apiReport ])
     .delete((req, res) => {
         res.json({ ...req.body });      
     })

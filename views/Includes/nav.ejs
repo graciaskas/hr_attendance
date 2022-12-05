@@ -45,15 +45,12 @@
                         09
                     </i>
                 </a>
-                
-                <% console.log(!user.is_employee, !user.employee_id) %>
-                <% if ( user.is_employee  || user.employee_id ) { %>
+                <% if ( user.is_employee || user.employee_id ) { %>
                     <a href="/attendances/kiosque" class='d-flex align-items-center'>
                         <i class="fas fa-fingerprint"></i>
                         <span class="text-decoration-none t-white">Kiosk mode</span>
                     </a>
                 <% } %>
-               
             </div>
         </li>
 

@@ -155,6 +155,8 @@ img {
   pointer-events: none
 }
 
+
+
 input:not([type=radio], [type=checkbox]),
 button,
 select:not(.form-control-sm),
@@ -164,6 +166,11 @@ textarea {
   border-radius: .15em !important;
   outline: none
 }
+/* input[required] {
+  border-bottom: 1px solid var(--danger) !important;
+  background-color: #021012 !important;
+} */
+
 
 select {
   outline: none
@@ -189,6 +196,9 @@ input[type=color] {
 
 input[type=color]::-webkit-color-swatch {
   border-radius: 5% !important
+}
+input:required {
+  border-bottom: 2px solid var(--secondary) !important;
 }
 
 label {
@@ -1563,6 +1573,7 @@ textarea {
   border-radius: .15rem !important
 }
 
+
 .input-group .input-group-text {
   border: none;
   text-align: center;
@@ -1579,7 +1590,7 @@ textarea {
 
 .input-group input {
   width: 92% !important;
-  border: 1px solid rgba(0, 0, 0, 0) !important;
+  border: 1px solid rgba(0, 0, 0, 0);
   padding: .75em .938em !important
 }
 
