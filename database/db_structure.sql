@@ -13,7 +13,7 @@ USE `hr_attendance`;
 
 -- CREATE TABLE `hr_attendances`
 CREATE TABLE IF NOT EXISTS  `hr_attendances` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `employee_id` int(11) NOT NULL,
   `checkin` text DEFAULT NULL,
   `checkout` text DEFAULT NULL,

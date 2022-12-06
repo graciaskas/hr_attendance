@@ -197,9 +197,7 @@ input[type=color] {
 input[type=color]::-webkit-color-swatch {
   border-radius: 5% !important
 }
-input:required {
-  border-bottom: 2px solid var(--secondary) !important;
-}
+
 
 label {
   font-size: .87rem !important;
@@ -1690,7 +1688,7 @@ textarea {
 }
 
 .table th {
-  font-size: .92rem !important;
+  font-size: .91rem !important;
 }
 
 @media (max-width:800px){
@@ -2002,7 +2000,9 @@ body {
 }
 
 
-
+.App main .main-content .user-form img {
+  max-width: 9rem !important;
+}
 .App main .main-content .user-form .user-stats {
   position: relative;
   margin-top: -16px;
@@ -2056,6 +2056,10 @@ body {
 .App main .main-content .user-form input {
   height: 35px !important
 }
+.App main .main-content .user-form input:required:not(input:disabled)::placeholder {
+  color: var(--danger) !important;
+}
+
 .App main .main-content .user-form .inputSelectList {
   list-style: none;
   top: 100%;

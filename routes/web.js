@@ -14,13 +14,14 @@ router.get("/login", forwardAuth, controller.getLogin);
 router.get("/unauthorized", controller.getError);
 
 // 1.3 Dashboard
-router.get("/dashboard", requireAuth, controller.getDashboard);
+router.get("/dashboard", requireAuth, controller.sysMeta, controller.getDashboard);
 
 // 1.4 Logout
 router.get("/logout", controller.getLogout);
 
 // Reset password
 router.get("/reset", controller.getResetPassword);
+
 
 
 module.exports = router;

@@ -8,10 +8,10 @@ class HRAttendance {
     let cancelButton = null;
     let submitButton = userForm ? userForm.querySelector("button[type=submit]") : null;
 
+  
+
     if (modifyButton && submitButton) {
-
       cancelButton = modifyButton.nextElementSibling;;
-
       modifyButton.onclick = e => {
         e.preventDefault();
 
@@ -30,7 +30,35 @@ class HRAttendance {
         
       };
     }
+
+    /** File upload */
+    let inputFile = document.querySelector("input[type=file]");
+    let fileUploader = document.querySelector(".fileUploader");
+    let imageDisplay = fileUploader.querySelector("img");
+    let serverFile = document.querySelector("input[name=image]");
+    if (fileUploader) {
+      fileUploader.onclick = e => {
+        inputFile.click();
+      };
+
+      inputFile.onchange = async e => {
+        let base64 = await HRAttendance.getBase64(e.target.files[ 0 ]);
+        //serverFile.value = base64;
+        let request = "<%=req%>";
+        console.log(request);
+        imageDisplay.src = base64;
+      }
+    }
   }
+
+  static getBase64 = (file) => { 
+    return new Promise( (resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
 
   static init() {
     
@@ -92,7 +120,7 @@ class HRAttendance {
       //Should be the first element
       let inputHidden = input.parentNode.firstElementChild;
 
-      input.addEventListener("keypress", async e => {
+      input.addEventListener("keyup", async e => {
         let val = e.target.value;
 
         if(val != null && val !== "") {
@@ -106,28 +134,37 @@ class HRAttendance {
           let results = await response.json();
 
           if (response.status == 200) {
+            if (results.data) results = results.data;
+
+            if(val === "")  selectList.innerHTML = "";
+
             if(results.length){
               //Clear list
               selectList.innerHTML = "";
                 
               //Create elements for the list
               results.forEach(element => {
-                  let item = document.createElement("li");
-                  item.innerText = element.name;
-                  item.id = element.id;
-                  selectList.appendChild(item);
-                  //onclick list element bind value to input
-                item.onclick = e => {
-                  console.log(inputHidden);  
+                let item = document.createElement("li");
+                item.innerText = element.name;
+                item.id = element.id;
+                selectList.appendChild(item);
+                //onclick list element bind value to input
+                item.onclick = e => { 
                   input.value = item.innerText;   
                   inputHidden.value = item.id;
                   selectList.classList.add('d-none');
-                  selectList.innerHTML = ""
+                  selectList.innerHTML = "";
                 }
                 
-              });
-
+              });            
+            } else {
+              //Clear list
+              selectList.innerHTML = "";
+              let item = document.createElement("li");
+              item.innerText = `No results for ${val}`;
+              selectList.appendChild(item);
             }
+
           } else {
             throw results;
           }

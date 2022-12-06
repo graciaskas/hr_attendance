@@ -77,14 +77,14 @@
                                                 <% } %>
 
                                                 <div class="col-lg-2">
-                                                    <div class="user-profile bg-white p-2 rounded">
-                                                        <div class="image">
-                                                            <img src="/src/image_add.png" alt=""
-                                                                style="height:120px;width:100%"
-                                                                class='img-fluid rounded' />
-                                                            <input type="file" hidden id='user-profile'
-                                                                name="image" />
-                                                                <input type="hidden" name="id" value="<%=data.id%>">
+                                                    <div class="user-profile bg-white p-2 rounded border">
+                                                        <div class="image w-100">
+                                                           <div class="fileUploader"  role="button">
+                                                                <img src="/src/image_add.png" alt="" style="height:120px;width:100%" class="img-fluid rounded"/>
+                                                           </div>
+                                                            <input type="file" hidden id='user-profile'  disabled />
+                                                            <input type="hidden" name="image" >
+                                                            <input type="hidden" name="id" value="<%=data.id%>" disabled>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -99,7 +99,9 @@
                                                                     <i class="fa fa-user"></i>
                                                                 </span>
                                                                 <input type="text" placeholder="Employee Names"
-                                                                    value="<%=data.name %>" disabled id="name" name="name"/>
+                                                                    value="<%=data.name %>" disabled id="name" name="name"
+                                                                    required
+                                                                />
                                                             </div>
                                                         </div>
 
@@ -202,7 +204,7 @@
                                                                                 <div
                                                                                     class="input-group border  w-100 mt-2 bg-white">
                                                                                     <input type="hidden"
-                                                                                        name="department_id" value="<%=data.dep_name %>">
+                                                                                        name="department_id" value="<%=data.dep_id %>">
                                                                                     <span class="input-group-text">
                                                                                         <i class="fa fa-building"></i>
                                                                                     </span>
@@ -227,7 +229,7 @@
                                                                                 <div
                                                                                     class="input-group border  w-100 mt-2 bg-white">
                                                                                     <input type="hidden"
-                                                                                        name="supervisor_id">
+                                                                                        name="supervisor_id" value="<%=data.sup_id%>">
                                                                                     <span class="input-group-text">
                                                                                         <i class="fa fa-user"></i>
                                                                                     </span>

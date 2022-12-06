@@ -11,7 +11,7 @@
 
     <div class='navigation-nav'>
         <a href="/dashboard" class='d-flex align-items-center'>
-            <i class="fas fa-columns"></i>
+            <i class="fas fa-home"></i>
             <span class="text-decoration-none text-white">Dashboard</span>
         </a>
 
@@ -19,16 +19,12 @@
             <a href="/employees" class="text-white d-flex align-items-center">
                 <i class="fas fa-users"></i>
                 <span class="text-decoration-none t-white">Employees</span>
-                <i class='badge rounded-pill bg-orange float-right'>
-                    12
-                </i>
+                <i class='badge rounded-pill bg-orange float-right'><%=sys_meta.employees %></i>
             </a>
             <a href="/departments" class="d-flex align-items-center">
                 <i class="fas fa-columns"></i>
                 <span class="text-decoration-none t-white">Departments</span>
-                <i class='badge rounded-pill bg-warning float-right'>
-                    05
-                </i>
+                <i class='badge rounded-pill bg-warning float-right'><%=sys_meta.departments %></i>
             </a>
         <% } %>
 
@@ -70,7 +66,7 @@
                     <a href="/users" class="d-flex align-items-center">
                         <i class="fas fa-user-friends"></i>
                         <span class="text-decoration-none">Users</span>
-                        <i class='badge rounded-pill bg-success float-right'>05</i>
+                        <i class='badge rounded-pill bg-success float-right'><%=sys_meta.users %></i>
                     </a>
                 </div>
             </li>

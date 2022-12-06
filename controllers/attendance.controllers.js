@@ -40,11 +40,11 @@ exports.index = async (req, res, next) => {
       appName: 'Attendances',
       appRootLocation: '/attendances',
       barCreate,
-      data,
-      meta,
+      data,meta,
       user: req.user,
       req,
-      millisecTotime
+      millisecTotime,
+      sys_meta: req.sys_meta
     });
     
   } catch (error) {
@@ -64,7 +64,8 @@ exports.create = (req, res, next) => {
     appRootLocation: '/attendances',
     barCreate,
     user: req.user,
-    error: null
+    error: null,
+    sys_meta: req.sys_meta
   });
 }
 
@@ -81,6 +82,7 @@ exports.view = async (req, res, next) => {
         barCreate,
         data: data[ 0 ],
         user: req.user,
+        sys_meta: req.sys_meta
       });
         
     } catch (error) {
@@ -195,7 +197,8 @@ exports.kiosque = async (req, res) => {
       user: req.user,
       canCheckOut, t,
       checkin: data.length ? data[ 0 ].checkin : null,
-      hasCheckOut
+      hasCheckOut,
+      sys_meta: req.sys_meta
     });
 
 

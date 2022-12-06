@@ -18,7 +18,8 @@ exports.index = async (req, res, next) => {
       barCreate,
       data,
       meta,
-      user:req.user
+      user: req.user,
+      sys_meta: req.sys_meta
     });
   } catch (error) {
     console.log(error);
@@ -38,7 +39,8 @@ exports.create = (req, res, next) => {
     appRootLocation: '/users',
     barCreate,
     error: null,
-    user:req.user
+    user: req.user,
+    sys_meta: req.sys_meta
   });
 }
 
@@ -56,7 +58,8 @@ exports.view = async (req, res, next) => {
       appRootLocation: '/users',
       barCreate,
       data: data[ 0 ],
-      user:req.user
+      user: req.user,
+      sys_meta: req.sys_meta
     });
       
   } catch (error) {
@@ -100,7 +103,9 @@ exports.apiPost = async (req, res, next ) => {
             error: err.message || err,
             ...req.body,
             page_name: 'Users',
-            user: req.user
+            user: req.user,
+            sys_meta: req.sys_meta,
+            req
           });
         }
       });    

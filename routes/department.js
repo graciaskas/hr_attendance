@@ -10,7 +10,5 @@ const router = express.Router();
 router.get('/', [ requireAuth ], controller.index);
 router.get('/create', [ requireAuth, adminRoute ], controller.create);
 router.get('/view/:id', [ requireAuth, adminRoute ], controller.view);
-router.get('/update/:id', [ requireAuth, adminRoute ], controller.update);
-
 
 module.exports = router;

@@ -6,12 +6,33 @@ const { DOMAIN, DB_NAME }  = process.env;
 const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: DOMAIN });
 
 const MySQL = require('../database/mysql');
-const { paginate, queryDBParams,millisecTotime } = require('../utils/utils');
+const { paginate, queryDBParams,millisecTotime, queryDB } = require('../utils/utils');
 
 // Students limit per section
 const SECTION_LIMIT = 20;
 
 
+exports.sysMeta = async (req, res,next) => {
+  try {
+    let sql = `
+    SELECT 
+      COUNT(*) as employees,
+        (SELECT COUNT(*) as departments FROM hr_departments) as departments,
+        (SELECT COUNT(*) as users FROM hr_users) as users
+    FROM 
+      hr_employee 
+    WHERE hr_employee.active = 1`;
+    let data = await queryDB(sql);
+    req.sys_meta = data[ 0 ];
+    next();
+  } catch (error) {
+    console.log(error);
+    res.render("error", {
+      code: 500,
+      content: error.message || error
+    })
+  }
+}
 
 
 exports.postForgotPassword = async (req, res, next) => {
@@ -145,7 +166,9 @@ exports.getDashboard = async (req, res, next) => {
       user: req.user,
       page_name: 'overview',
       data: attendances.data,
-      millisecTotime
+      millisecTotime,
+      sys_meta: req.sys_meta
+
     });
   } catch (error) {
     console.log(error);

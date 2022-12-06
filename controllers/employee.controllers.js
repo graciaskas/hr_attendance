@@ -30,7 +30,8 @@ exports.index = async (req, res, next) => {
       data,
       meta,
       user: req.user,
-      req
+      req,
+      sys_meta: req.sys_meta
     });
 
   } catch (error) {
@@ -52,7 +53,8 @@ exports.create = (req, res, next) => {
     appRootLocation: '/employees',
     barCreate,
     user: req.user,
-    error: null
+    error: null,
+     sys_meta: req.sys_meta
 
   });
 }
@@ -68,8 +70,17 @@ exports.view = async (req, res, next) => {
       return res.redirect(401,"/unauthorized");
     }
 
-    
-    let data = await queryDB('select * from hr_employee where id = ' + id);
+    let sql = `
+      SELECT 
+        he.id, he.name, he.job_title, he.email,he.state,he.city,he.mobile_phone,he.gender,he.street,he.image,
+        (SELECT name from hr_departments where hr_departments.id = he.department_id) as dep_name,
+        (SELECT id from hr_departments where hr_departments.id = he.department_id) as dep_id,
+        (SELECT name from hr_employee where hr_employee.id = he.supervisor_id) as sup_name,
+        (SELECT id from hr_employee where hr_employee.id = he.supervisor_id) as sup_id
+      FROM hr_employee he INNER JOIN hr_departments ON he.department_id = hr_departments.id WHERE he.id = ${id} `;
+    let data = await queryDB(sql);
+
+    //res.json(data);
       
     res.render("Employee/view", {
       page_name: null,
@@ -78,7 +89,8 @@ exports.view = async (req, res, next) => {
       barCreate,
       data: data[ 0 ],
       user: req.user,
-      error: null
+      error: null,
+       sys_meta: req.sys_meta
     });
       
   } catch (error) {
@@ -89,29 +101,7 @@ exports.view = async (req, res, next) => {
   }
 }
 
-exports.update = async (req, res) => {
-    try {
-        let { id } = req.params || null;
-        if (!id && isNaN(id)) throw Error("invalid type parameter !");
 
-        let data = await queryDB('select * from hr_employee where id = ' + id);
-        
-        res.render("Employee/update", {
-          page_name: null,
-          appName: 'Employees',
-          appRootLocation: '/employees',
-          barCreate,
-          data: data[ 0 ],
-          user:req.user
-        });
-        
-    } catch (error) {
-      res.render("error", {
-        code: 500,
-        content: error.message || error
-      })
-    }
-}
 
 
 //All api route requets
@@ -183,7 +173,7 @@ exports.apiPut = async (req, res, next) => {
     if(req.body.country_id == "") {
       delete req.body.country_id;
     }
-        
+
     let sql = `UPDATE hr_employee SET ? WHERE id = ${req.body.id}`;
     //execute query
     await queryDBParams(sql, req.body);

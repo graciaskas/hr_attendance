@@ -28,9 +28,9 @@ exports.index = async (req, res, next) => {
       appName: 'Departments',
       appRootLocation: '/departments',
       barCreate,
-      data,
-      meta,
-      user:req.user
+      data, meta,
+      user: req.user,
+      sys_meta: req.sys_meta
     });
   } catch (error) {
     res.render("error", {
@@ -49,7 +49,8 @@ exports.create = (req, res, next) => {
     appRootLocation: '/Departments',
     barCreate,
     user: req.user,
-    error: null
+    error: null,
+    sys_meta: req.sys_meta
   });
 }
 
@@ -66,7 +67,8 @@ exports.view = async (req, res, next) => {
           appRootLocation: '/departments',
           barCreate,
           data: data[ 0 ],
-          user:req.user
+          user: req.user,
+          sys_meta: req.sys_meta
         });
         
     } catch (error) {
@@ -77,29 +79,7 @@ exports.view = async (req, res, next) => {
     }
 }
 
-exports.update = async (req, res) => {
-    try {
-        let { id } = req.params || null;
-        if (!id && isNaN(id)) throw Error("invalid type parameter !");
 
-        let data = await queryDB('select * from hr_Department where id = ' + id);
-        
-        res.render("Department/update", {
-          page_name: null,
-          appName: 'Departments',
-          appRootLocation: '/Departments',
-          barCreate,
-          data: data[ 0 ],
-          user:req.user
-        });
-        
-    } catch (error) {
-      res.render("error", {
-        code: 500,
-        content: error.message || error
-      });
-    }
-}
 
 //----All api requets
 exports.apiGet = async (req, res) => { 
