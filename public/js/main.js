@@ -42,11 +42,18 @@ class HRAttendance {
       };
 
       inputFile.onchange = async e => {
-        let base64 = await HRAttendance.getBase64(e.target.files[ 0 ]);
+        let file = e.target.files[ 0 ];
+        let size = Math.floor(file.size / 1024  );
+        let base64 = await HRAttendance.getBase64(file);
         //serverFile.value = base64;
-        let request = "<%=req%>";
-        console.log(request);
-        imageDisplay.src = base64;
+       
+        if (size > 2000) {
+          window.alert("Image size should not be greater than 2mb");
+          return;
+        }
+
+        serverFile.value = base64;
+        imageDisplay.src = base64
       }
     }
   }

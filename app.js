@@ -15,10 +15,11 @@ const { forwardAuth, requireAuth } = require('./middlewares/auth.middleware');
 
 const app = express();
 
+app.use(express.json({limit: '2mb', parameterLimit: 2000 }));
+app.use(express.urlencoded({limit: '2mb', extended: true, parameterLimit: 2000}));
+app.use(cookieParser());
 app.use(cors());
 app.use(logger);
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
 //Check if is not production;
 if (process.env.NODE_ENV !== 'production') {
@@ -43,10 +44,7 @@ app.set('trust proxy', 1);
 
 
 
-app.use(bodyParser.urlencoded({ extended: false, limit: 1000000000 }));
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json({ limit: '10mb' }));
-app.use(cookieParser());
+
 
 
 const apiRoutes = require('./routes/api');

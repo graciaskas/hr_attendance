@@ -13,10 +13,9 @@ exports.index = async (req, res, next) => {
 
     let sql = `
       SELECT 
-        hr_employee.id,hr_employee.name,hr_employee.mobile_phone,hr_employee.job_title,
-        hr_employee.email, 
+        hr_employee.id,hr_employee.name,hr_employee.mobile_phone,hr_employee.job_title,hr_employee.email, hr_employee.image,
         (SELECT name FROM hr_departments WHERE hr_employee.department_id = hr_departments.id) AS dep_name 
-      FROM hr_employee 
+      FROM hr_employee
       LEFT JOIN hr_departments 
       ON hr_employee.department_id = hr_departments.id`;
     
@@ -190,7 +189,7 @@ exports.apiPut = async (req, res, next) => {
 
 exports.apiReport = async (req, res) => {
   try {
-      //SQL QUERY
+    //SQL QUERY
     const sql = `
       SELECT 
         hr_employee.id, hr_employee.name, hr_employee.roll_no, 
